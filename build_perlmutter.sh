@@ -3,6 +3,7 @@
 # Assumes deps were already built via a full build_ncclx_pm.sh run.
 module load python
 
-INSTALL_PREFIX=/pscratch/sd/l/ldhough/ncclx-deps \
+INSTALL_PREFIX=/pscratch/sd/e/egencer/sparsecomms/nccl-prefix \
 NCCL_BUILD_SKIP_DEPS=1 \
+NCCL_HOME=/pscratch/sd/e/egencer/sparsecomms/torchcomms-sparse/comms/ncclx/stable \
 bash "$(dirname "$0")/build_ncclx_pm.sh" "$@"

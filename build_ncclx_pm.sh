@@ -407,11 +407,18 @@ THRIFT_SERVICE_LDFLAGS=(
 )
 THIRD_PARTY_LDFLAGS+="${THRIFT_SERVICE_LDFLAGS[*]} "
 THIRD_PARTY_LDFLAGS+="$(pkg-config --libs --static libfolly) "
+
 if [[ -z "${USE_SYSTEM_LIBS}" ]]; then
-  THIRD_PARTY_LDFLAGS+="-l:libglog.a -l:libgflags.a -l:libboost_context.a -l:libfmt.a -l:libssl.a -l:libcrypto.a"
+  THIRD_PARTY_LDFLAGS+="-l:libglog.a -l:libgflags.a -l:libboost_context.a -l:libfmt.a -l:libssl.a -l:libcrypto.a "
 else
-  THIRD_PARTY_LDFLAGS+="-lglog -lgflags -lboost_context -lfmt -lssl -lcrypto"
+  THIRD_PARTY_LDFLAGS+="-lglog -lgflags -lboost_context -lfmt -lssl -lcrypto "
 fi
+
+# ---------------------------------------------------------------------------
+# ADDED FIX FOR RTLD_DEEPBIND / PyTorch Symbol Collisions
+# Forces internal library symbols to bind locally during the link step.
+# ---------------------------------------------------------------------------
+THIRD_PARTY_LDFLAGS+="-Wl,-Bsymbolic "
 
 echo "$THIRD_PARTY_LDFLAGS"
 
