@@ -55,6 +55,10 @@ struct FuncMinMax {
   }
 };
 
+// Bitwise OR, for integer types (e.g. combining nonzero bitmasks).
+template<typename T>
+struct FuncBitOr { using EltType = T; __device__ __forceinline__ FuncBitOr(uint64_t opArg=0) {}; };
+
 template<typename T> struct FuncPreMulSum;
 template<typename T> struct FuncSumPostDiv;
 template<typename T> struct FuncPatSumPostDiv;  // [META:PAT_AVG] Defined in meta/device/FuncPatSumPostDiv.cuh
@@ -328,6 +332,13 @@ template<typename T>
 struct Apply_Reduce<FuncMinMax<T>, /*EltPerPack=*/1> {
   __device__ __forceinline__ static BytePack<sizeof(T)> reduce(FuncMinMax<T> fn, BytePack<sizeof(T)> a, BytePack<sizeof(T)> b) {
     return (a.native ^ fn.xormask.native) < (b.native ^ fn.xormask.native) ? a : b;
+  }
+};
+template<typename T>
+struct Apply_Reduce<FuncBitOr<T>, /*EltPerPack=*/1> {
+  __device__ __forceinline__ static BytePack<sizeof(T)> reduce(FuncBitOr<T> fn, BytePack<sizeof(T)> a, BytePack<sizeof(T)> b) {
+    a.native |= b.native;
+    return a;
   }
 };
 

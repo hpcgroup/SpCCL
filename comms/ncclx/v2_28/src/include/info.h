@@ -37,6 +37,13 @@ struct ncclInfo {
   float ccdDenseThreshold;
   float ccdAgDenseThreshold;
   float ccdDenseIntraThreshold;
+  // Union-pack ReduceScatter (ncclReduceScatterSparseUnion)
+  uint8_t ccdUnionN;
+  uint8_t ccdUnionOrder;
+  uint8_t ccdUnionArMask;   // masks is the AR mask (one mask, OR of all ranks), not the AG masks
+  uint8_t ccdUnionFlags;    // CcdUnionFlags (device.h)
+  const uint64_t* ccdUnionMasks;
+  uint64_t ccdUnionMaskWords;
 };
 
 #endif

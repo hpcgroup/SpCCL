@@ -63,6 +63,15 @@ class Primitives<
   float ccdTrackedDensity;
   float ccdBaseDensity;
   CcdCompressionProtocol ccdStepProtocol;
+  // Union-pack RS (see ccd.cuh): chain length N, the AG masks or the AR mask,
+  // and the ring step of the current RS-mode op (0 = the chunk's first send).
+  uint8_t ccdUnionN;
+  uint8_t ccdUnionOrder;  // CcdUnionOrder
+  uint8_t ccdUnionArMask; // ccdUnionMasks is the AR mask, used for every chain
+  uint8_t ccdUnionFlags;  // CcdUnionFlags
+  const uint64_t* ccdUnionMasks;
+  size_t ccdUnionMaskWords;
+  int ccdRsStep;
 
   // Don't use barrier 0 as it's used by the final sync
   __device__ void barrier() {
@@ -193,6 +202,293 @@ class Primitives<
     }
   }
 
+  // Named barrier shared by the worker threads (same as subBarrier's).
+  __device__ __forceinline__ int ccdWorkerBar() const {
+    return 15 - group - (nworkers != nthreads ? 1 : 0);
+  }
+
+  __device__ __forceinline__ uint32_t ccdUnionCount(
+      CcdUnionSlice& s, int n, intptr_t eltOffset, uint32_t* ownNnz = nullptr
+    ) {
+    return ccd_union_count(
+        s, (uint32_t)n, (size_t)eltOffset,
+        ccdUnionMasks, ccdUnionMaskWords,
+        ncclShmem.channel.ring.userRanks, ncclShmem.comm.nRanks, ccdRsStep, (int)ccdUnionN,
+        ccdUnionArMask != 0,
+        ncclScratchForWarp((tidInBlock - tid) / WARP_SIZE),
+        (size_t)ncclShmemScratchWarpSize() * (nworkers / WARP_SIZE),
+        tid, nworkers, ccdWorkerBar(), ownNnz);
+  }
+
+  __device__ __forceinline__ void ccdUnionSetup(CcdUnionSlice& s, int n, intptr_t eltOffset) {
+    ccd_union_setup(
+        s, (uint32_t)n, (size_t)eltOffset,
+        ccdUnionMasks, ccdUnionMaskWords,
+        ncclShmem.channel.ring.userRanks, ncclShmem.comm.nRanks, ccdRsStep, (int)ccdUnionN,
+        ccdUnionArMask != 0,
+        ncclScratchForWarp((tidInBlock - tid) / WARP_SIZE),
+        (size_t)ncclShmemScratchWarpSize() * (nworkers / WARP_SIZE),
+        tid, nworkers, ccdWorkerBar());
+  }
+
+  // Sets up `s` for a slice received as UPACK (payload at `in`) and returns
+  // nnz(U): with PassCounts it loads the tile offsets sent in the payload,
+  // otherwise (or with VerifyCounts, which then compares them) it counts U.
+  __device__ __forceinline__ uint32_t ccdUnionRecvCount(CcdUnionSlice& s, int n, intptr_t eltOffset, const T* in) {
+    const bool pass = ccdUnionFlags & CcdUnionPassCounts;
+    const uint32_t* counts = (const uint32_t*)in;
+    uint32_t nnz;
+    if (pass && !(ccdUnionFlags & CcdUnionVerifyCounts)) {
+      ccdUnionSetup(s, n, eltOffset);
+      nnz = ccd_union_load_counts(s, counts, tid, nworkers, ccdWorkerBar());
+    } else {
+      nnz = ccdUnionCount(s, n, eltOffset);
+      if (pass) {
+        for (uint32_t i = tid; i <= s.nTiles; i += nworkers) {
+          const uint32_t got = __ldcg(counts + i);
+          if (got != s.tilePre[i]) {
+            printf("CCD UNION: rank %d ch %d step %d: tile offset %u is %u, counted %u\n",
+                   ncclShmem.comm.rank, ncclShmem.channelId, ccdRsStep, i, got, s.tilePre[i]);
+            __trap();
+          }
+        }
+      }
+    }
+    ccdUnionCheckRecv(in, nnz, ccd_union_vals_offset((uint32_t)n, pass));
+    return nnz;
+  }
+
+  // countNz adds the nonzeros among the dense values read to s.ownCount.
+  template<CcdUnionMode Mode>
+  __device__ __forceinline__ void ccdUnionPass2(
+      const CcdUnionSlice& s, T* dense, const T* in, T* out, uint64_t* bv = nullptr, bool countNz = false
+    ) {
+    if (ccdUnionOrder == CcdUnionOrderTile) {
+      ccd_union_pass2_tile<T, Mode>(s, dense, in, out, bv, tid, nworkers, countNz);
+    } else {
+      ccd_union_pass2_element<T, Mode>(s, dense, in, out, tid, nworkers, countNz);
+    }
+  }
+
+  // Bulk-copy received packed values to local memory, so the out-of-order
+  // reads of the tile-order pass hit local HBM instead of NVLink.
+  __device__ __forceinline__ void ccdUnionStage(void* dst, const void* src, size_t bytes) {
+    const int4* s4 = (const int4*)src;
+    int4* d4 = (int4*)dst;
+    for (size_t i = tid; i < (bytes + 15) / 16; i += nworkers) d4[i] = __ldcg(s4 + i);
+    barrier_sync(ccdWorkerBar(), nworkers);
+  }
+
+  // Sender and receiver must agree on U and on the payload layout; a
+  // disagreement means the masks, the chain bookkeeping or the flags are
+  // inconsistent across ranks. With PassCounts the receiver's nnz comes from
+  // the payload, so this checks the header against it.
+  __device__ __forceinline__ void ccdUnionCheckRecv(const T* in, uint32_t nnz, size_t valsOffset) {
+    if (tid == 0) {
+      const volatile CcdSparseChunkHeader* hdr =
+          (const volatile CcdSparseChunkHeader*)((const char*)in - sizeof(CcdSparseChunkHeader));
+      if (hdr->format != (size_t)CcdCompressionProtocol::UPACK || hdr->nnz != nnz
+          || hdr->vals_offset != valsOffset) {
+        printf("CCD UNION: rank %d ch %d step %d: got format %lu nnz %lu vals_offset %lu, "
+               "expected UPACK nnz %u vals_offset %lu\n",
+               ncclShmem.comm.rank, ncclShmem.channelId, ccdRsStep,
+               (unsigned long)hdr->format, (unsigned long)hdr->nnz, (unsigned long)hdr->vals_offset,
+               nnz, (unsigned long)valsOffset);
+        __trap();
+      }
+    }
+  }
+
+  // Hand-off receive on the regular sparse path (ring step N-1 in element
+  // order, or the final step when N = nRanks): scatter-add the packed sum.
+  __device__ __forceinline__ void ccdUnionScatterRecv(T* dense, const T* in, int n, intptr_t eltOffset) {
+    CcdUnionSlice s;
+    ccdUnionRecvCount(s, n, eltOffset, in);
+    const T* vals = (const T*)((const char*)in + ccd_union_vals_offset((uint32_t)n, ccdUnionFlags & CcdUnionPassCounts));
+    ccdUnionPass2<CcdUnionScatterAdd>(s, dense, vals, nullptr);
+  }
+
+  // One slice of a union-pack hop at ring step k <= N-2: pack this rank's slice
+  // at U, adding the values from the previous hop, and send them behind a UPACK
+  // header (after U's tile offsets with PassCounts). In tile order this also
+  // does the hand-off at k = N-1: the sum of all N contributions goes out as
+  // SPOP with U as the bitvector, or as DENSE if SpCCL's dense threshold says so.
+  template<int Recv>
+  __device__ __forceinline__ void ccdUnionSendSlice(int workSize, intptr_t eltOffset, int slice) {
+    T* dense = (T*)ncclShmem.groups[group].srcs[0];
+    char* sendBuf = (char*)ncclShmem.groups[group].dsts[0];
+    // Received payload: [tile offsets with PassCounts][values], like the one sent.
+    const bool passCounts = ccdUnionFlags & CcdUnionPassCounts;
+    const size_t upackValsOffset = ccd_union_vals_offset((uint32_t)workSize, passCounts);
+    const T* inPayload = Recv ? (const T*)ncclShmem.groups[group].srcs[1] : nullptr;
+    const T* in = Recv ? (const T*)((const char*)inPayload + upackValsOffset) : nullptr;
+    // Tile order reads the received values out of order; stage them like SPOP.
+    const bool stage = Recv && ccdUnionOrder == CcdUnionOrderTile
+        && (ncclShmem.groups[group].recvConns[0]->flags & NCCL_P2P_READ);
+
+    // This rank's own nonzeros feed SpCCL's density extrapolation. With the
+    // AG masks they come from its own mask; with the AR mask they are counted
+    // while packing.
+    const bool countOwn = !Recv && slice == 0;
+    const bool countInPack = countOwn && ccdUnionArMask;
+    CcdUnionSlice s;
+    uint32_t ownNnz = 0;
+    const uint32_t nnz = Recv
+        ? ccdUnionRecvCount(s, workSize, eltOffset, inPayload)
+        : ccdUnionCount(s, workSize, eltOffset, countOwn && !ccdUnionArMask ? &ownNnz : nullptr);
+    const float density = (float)nnz / (float)workSize;
+
+    CcdCompressionProtocol fmt;
+    size_t hdrNnz = nnz, payload, indsOffset = 0, valsOffset = 0;
+    if (ccdRsStep + 1 < (int)ccdUnionN) {
+      valsOffset = upackValsOffset;
+      T* out = (T*)(sendBuf + valsOffset);
+      if (passCounts) {
+        uint32_t* counts = (uint32_t*)sendBuf;
+        for (uint32_t i = tid; i <= s.nTiles; i += nworkers) counts[i] = s.tilePre[i];
+      }
+      if (!Recv) {
+        ccdUnionPass2<CcdUnionPack>(s, dense, nullptr, out, nullptr, countInPack);
+      } else if (stage) {
+        ccdUnionStage(out, in, (size_t)nnz * sizeof(T));
+        ccdUnionPass2<CcdUnionAddInPlace>(s, dense, nullptr, out);
+      } else {
+        ccdUnionPass2<CcdUnionPackAdd>(s, dense, in, out);
+      }
+      fmt = CcdCompressionProtocol::UPACK;
+      payload = valsOffset + (size_t)nnz * sizeof(T);
+      // U is the exact support once all N contributions are in, which is what
+      // the hand-off step's format choice should extrapolate from.
+      if (slice == 0) ccdTrackedDensity = density;
+    } else {
+      // Tile-order hand-off. Format from the exact nnz(U) with SpCCL's
+      // thresholds; COO is not produced here, SPOP stands in for it.
+      const int sendPeer = ncclShmem.channel.ring.next;
+      const float thr = ncclShmem.comm.rankToNode[sendPeer] == ncclShmem.comm.node
+          ? ccdDenseIntraThreshold : ccdDenseThreshold;
+      fmt = ccd_select_format_dispatch<T>((int)ccdEltSize, nnz, (size_t)workSize, ccdFormatMask, thr)
+          == CcdCompressionProtocol::DENSE ? CcdCompressionProtocol::DENSE : CcdCompressionProtocol::SPOP;
+      if (fmt == CcdCompressionProtocol::DENSE) {
+        if (Recv) {
+          const T* src = in;
+          if (stage) {
+            ccdUnionStage(sendBuf, in, (size_t)nnz * sizeof(T));
+            src = (const T*)sendBuf;
+          }
+          ccdUnionPass2<CcdUnionScatterAdd>(s, dense, src, nullptr);
+          barrier_sync(ccdWorkerBar(), nworkers);
+        }
+        reduceCopy<Unroll, RedOp, T, 0, 1, 1, 0, 1, MaxSend, 0>
+          (tid, nworkers, 0, nullptr, false,
+           1, ncclShmem.groups[group].srcs,
+           fan.nsend(), ncclShmem.groups[group].dsts,
+           workSize);
+        hdrNnz = workSize;
+        payload = (size_t)workSize * sizeof(T);
+      } else {
+        // SPOP layout: [bv][inds][vals], sections padded to 16 bytes.
+        indsOffset = ccd_pad16((size_t)s.nTiles * 64 * sizeof(uint64_t));
+        valsOffset = indsOffset + ccd_pad16((size_t)(s.nTiles + 1) * sizeof(unsigned));
+        uint64_t* bv = (uint64_t*)sendBuf;
+        unsigned* inds = (unsigned*)(sendBuf + indsOffset);
+        T* vals = (T*)(sendBuf + valsOffset);
+        if (!Recv) {
+          ccdUnionPass2<CcdUnionPack>(s, dense, nullptr, vals, bv, countInPack);
+        } else if (stage) {
+          ccdUnionStage(vals, in, (size_t)nnz * sizeof(T));
+          ccdUnionPass2<CcdUnionAddInPlace>(s, dense, nullptr, vals, bv);
+        } else {
+          ccdUnionPass2<CcdUnionPackAdd>(s, dense, in, vals, bv);
+        }
+        for (uint32_t i = tid; i <= s.nTiles; i += nworkers) inds[i] = s.tilePre[i];
+        payload = valsOffset + (size_t)nnz * sizeof(T);
+      }
+      if (slice == 0) ccdTrackedDensity = ccd_expected_density(density, ccdBaseDensity);
+    }
+    if (countOwn) {
+      if (countInPack) {
+        barrier_sync(ccdWorkerBar(), nworkers);
+        ownNnz = *s.ownCount;
+      }
+      ccdBaseDensity = (float)ownNnz / (float)workSize;
+    }
+    ccdUnionWriteHeader(sendBuf, payload, hdrNnz, indsOffset, valsOffset, fmt);
+  }
+
+  // Header of an outgoing union slice, and its size in the connection FIFO.
+  __device__ __forceinline__ void ccdUnionWriteHeader(
+      char* sendBuf, size_t payload, size_t nnz, size_t indsOffset, size_t valsOffset, CcdCompressionProtocol fmt
+    ) {
+    if (tid == 0) {
+      CcdSparseChunkHeader* hdr = (CcdSparseChunkHeader*)(sendBuf - sizeof(CcdSparseChunkHeader));
+      hdr->payload_bytes = payload;
+      hdr->nnz = nnz;
+      hdr->bv_offset = 0;
+      hdr->inds_offset = indsOffset;
+      hdr->vals_offset = valsOffset;
+      hdr->format = (size_t)fmt;
+    }
+    if ((flags & RoleWaitSend) && (flags & ConnFifoEnabled)) {
+      ssize_t sz = sizeof(CcdSparseChunkHeader) + (ssize_t)payload;
+      if (sz < CCD_MIN_SEND_BYTES) sz = CCD_MIN_SEND_BYTES;
+      connFifo[(step - StepPerSlice) % NCCL_STEPS].size = sz;
+    }
+  }
+
+  // Number of pairs in a received UPAIR slice (payload at `in`). With
+  // VerifyCounts it also counts U over the slice and traps on a difference.
+  __device__ __forceinline__ uint32_t ccdUnionPairsRecvCount(const char* in, int n, intptr_t eltOffset) {
+    const volatile CcdSparseChunkHeader* hdr =
+        (const volatile CcdSparseChunkHeader*)(in - sizeof(CcdSparseChunkHeader));
+    const uint32_t nnz = (uint32_t)hdr->nnz;
+    if (tid == 0 && hdr->format != (size_t)CcdCompressionProtocol::UPAIR) {
+      printf("CCD UNION: rank %d ch %d step %d: got format %lu, expected UPAIR\n",
+             ncclShmem.comm.rank, ncclShmem.channelId, ccdRsStep, (unsigned long)hdr->format);
+      __trap();
+    }
+    if (ccdUnionFlags & CcdUnionVerifyCounts) {
+      CcdUnionSlice s;
+      const uint32_t counted = ccdUnionCount(s, n, eltOffset);
+      if (tid == 0 && counted != nnz) {
+        printf("CCD UNION: rank %d ch %d step %d: got %u pairs, counted %u\n",
+               ncclShmem.comm.rank, ncclShmem.channelId, ccdRsStep, nnz, counted);
+        __trap();
+      }
+    }
+    return nnz;
+  }
+
+  // One slice of a UPAIR hop (NCCL_CCD_UNION_ORDER=2: fp32, N = nRanks). Hop 0
+  // packs this rank's slice at U as {value, slice index} pairs (tile order);
+  // every later hop reads the received pairs in order, 16 bytes at a time
+  // (no staging), and sends them on with its own value at each index added.
+  template<int Recv>
+  __device__ __forceinline__ void ccdUnionPairsSendSlice(int workSize, intptr_t eltOffset) {
+    if constexpr (sizeof(T) != 4) {
+      if (tid == 0) { printf("CCD UNION: pairs need a 4-byte element type\n"); __trap(); }
+    } else {
+      T* dense = (T*)ncclShmem.groups[group].srcs[0];
+      char* sendBuf = (char*)ncclShmem.groups[group].dsts[0];
+      uint32_t nnz;
+      if (!Recv) {
+        CcdUnionSlice s;
+        nnz = ccdUnionCount(s, workSize, eltOffset);
+        ccd_union_pass2_tile<T, CcdUnionPackPairs>(s, dense, nullptr, (T*)sendBuf, nullptr, tid, nworkers, false);
+      } else {
+        const char* in = (const char*)ncclShmem.groups[group].srcs[1];
+        nnz = ccdUnionPairsRecvCount(in, workSize, eltOffset);
+        ccd_union_pairs_add((const float*)dense, (const uint4*)in, (uint4*)sendBuf, nnz, tid, nworkers);
+      }
+      ccdUnionWriteHeader(sendBuf, (size_t)nnz * sizeof(uint2), nnz, 0, 0, CcdCompressionProtocol::UPAIR);
+    }
+  }
+
+  // Final receive of a UPAIR chain: scatter-add the pairs into the dense buffer.
+  __device__ __forceinline__ void ccdUnionPairsScatterRecv(T* dense, const char* in, int n, intptr_t eltOffset) {
+    const uint32_t nnz = ccdUnionPairsRecvCount(in, n, eltOffset);
+    if constexpr (sizeof(T) == 4) ccd_union_pairs_scatter_add((float*)dense, (const uint4*)in, nnz, tid, nworkers);
+  }
+
   template <int DirectRecv1, int DirectSend1, int Recv, int Send, int SrcBuf, int DstBuf>
   __device__ __forceinline__ void genericOp(
       intptr_t srcIx, intptr_t dstIx, int nelem, bool postOp
@@ -201,6 +497,11 @@ class Primitives<
     constexpr int DirectSend = 1 && Direct && DirectSend1;
     constexpr int Src = SrcBuf != -1;
     constexpr int Dst = DstBuf != -1;
+
+    if constexpr (Src) {
+      // Ring step of this op within the RS phase; send() starts each chunk.
+      if (isSparse) ccdRsStep = Recv ? ccdRsStep + 1 : 0;
+    }
 
     nelem = nelem < 0 ? 0 : nelem;
     int sliceSize = stepSize*StepPerSlice;
@@ -252,7 +553,19 @@ class Primitives<
          * to 0 to avoid unnecessary workload. */
         int workSize = ncclShmem.aborted ? 0 : sliceSize;
 
-        if (isSparse && workSize > 0) {
+        bool ccdUnionSend = false;
+        if constexpr (Src && Send && !Dst) {
+          ccdUnionSend = isSparse && ccdUnionN > 1
+              && (ccdRsStep + 1 < (int)ccdUnionN
+                  || (ccdRsStep + 1 == (int)ccdUnionN && ccdUnionOrder == CcdUnionOrderTile));
+        }
+
+        if (ccdUnionSend && workSize > 0) {
+          if constexpr (Src && Send && !Dst) {
+            if (ccdUnionOrder == CcdUnionOrderPairs) ccdUnionPairsSendSlice<Recv>(workSize, srcIx + offset);
+            else ccdUnionSendSlice<Recv>(workSize, srcIx + offset, slice);
+          }
+        } else if (isSparse && workSize > 0) {
           // ============================================================
           // CCD Sparse path — two modes based on Src template param:
           //
@@ -324,8 +637,12 @@ class Primitives<
           // (P2P read mode), bulk-copy to local send FIFO first, then
           // decompress/scatter-add from local memory instead of scattered
           // NVLink reads.  NET recv and P2P write recv are already local.
+          // Element-order UPACK is read in packed order (contiguous), so it doesn't need staging;
+          // nor does UPAIR, which is read in order 16 bytes at a time.
           bool shouldStage = recv_is_compressed
               && (ccd_recv_fmt != CcdCompressionProtocol::COO1D)
+              && (ccd_recv_fmt != CcdCompressionProtocol::UPACK || ccdUnionOrder == CcdUnionOrderTile)
+              && (ccd_recv_fmt != CcdCompressionProtocol::UPAIR)
               && (ncclShmem.groups[group].recvConns[0]->flags & NCCL_P2P_READ);
 
           if (Src) {
@@ -409,6 +726,10 @@ class Primitives<
                 ccd_coo1d_scatter_dispatch<T>(
                     (int)ccdEltSize, ccd_dense_buf, ccd_recv_after_hdr, recv_keys,
                     ccd_recv_hdr->nnz, (size_t)realWorkSize, 0, nworkers / warpSize - 1);
+              } else if (ccd_recv_fmt == CcdCompressionProtocol::UPACK) {
+                ccdUnionScatterRecv(ccd_dense_buf, (const T*)ccd_recv_after_hdr, workSize, srcIx + offset);
+              } else if (ccd_recv_fmt == CcdCompressionProtocol::UPAIR) {
+                ccdUnionPairsScatterRecv(ccd_dense_buf, ccd_recv_after_hdr, workSize, srcIx + offset);
               } else { // SPOP
                 const uint64_t* recv_bv  = (const uint64_t*)(ccd_recv_after_hdr + ccd_recv_hdr->bv_offset);
                 const unsigned* recv_inds = (const unsigned*)(ccd_recv_after_hdr + ccd_recv_hdr->inds_offset);
@@ -481,6 +802,10 @@ class Primitives<
                   ccd_dense_scatter_into<T>(
                       ccd_dense_buf, (const T*)ccd_recv_after_hdr, (size_t)workSize,
                       0, nworkers / warpSize - 1);
+                } else if (ccd_recv_fmt == CcdCompressionProtocol::UPACK) {
+                  ccdUnionScatterRecv(ccd_dense_buf, (const T*)ccd_recv_after_hdr, workSize, srcIx + offset);
+                } else if (ccd_recv_fmt == CcdCompressionProtocol::UPAIR) {
+                  ccdUnionPairsScatterRecv(ccd_dense_buf, ccd_recv_after_hdr, workSize, srcIx + offset);
                 } else if (ccd_recv_fmt == CcdCompressionProtocol::COO1D) {
                   const unsigned* recv_keys = (const unsigned*)(ccd_recv_after_hdr + ccd_align_up(ccd_recv_hdr->nnz * (size_t)ccdEltSize, sizeof(unsigned)));
                   ccd_coo1d_scatter_dispatch<T>(
@@ -1157,6 +1482,13 @@ private:
     ccdTrackedDensity = 0.0f;
     ccdBaseDensity = 0.0f;
     ccdStepProtocol = CcdCompressionProtocol::SPOP;
+    ccdUnionN = collWork ? collWork->ccdUnionN : 0;
+    ccdUnionOrder = collWork ? collWork->ccdUnionOrder : CcdUnionOrderElement;
+    ccdUnionArMask = collWork ? collWork->ccdUnionArMask : 0;
+    ccdUnionFlags = collWork ? collWork->ccdUnionFlags : 0;
+    ccdUnionMasks = collWork ? collWork->ccdUnionMasks : nullptr;
+    ccdUnionMaskWords = collWork ? collWork->ccdUnionMaskWords : 0;
+    ccdRsStep = -1;
     if (mode == primsModeDefault) { // Connect to ranks in sendPeers/recvPeers
       // For send operations, we need an extra warp to overlap the threadfence and the copy
       this->nworkers = nthreads - (MaxSend > 0 && nthreads >= NCCL_SIMPLE_EXTRA_GROUP_IF_NTHREADS_GE ? WARP_SIZE : 0);

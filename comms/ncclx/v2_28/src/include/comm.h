@@ -261,6 +261,12 @@ struct ncclTaskColl {
   float ccdDenseThreshold;
   float ccdAgDenseThreshold;
   float ccdDenseIntraThreshold;
+  uint8_t ccdUnionN;
+  uint8_t ccdUnionOrder;
+  uint8_t ccdUnionArMask;
+  uint8_t ccdUnionFlags;
+  const uint64_t* ccdUnionMasks;
+  uint64_t ccdUnionMaskWords;
 };
 
 struct ncclTaskP2p {

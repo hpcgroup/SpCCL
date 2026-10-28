@@ -59,6 +59,7 @@ enum ncclDevRedOp_t {
   ncclDevSum, ncclDevProd, ncclDevMinMax,
   ncclDevPreMulSum, ncclDevSumPostDiv,
   ncclDevPatSumPostDiv,  // [META:PAT_AVG] Native AVG for PAT ReduceScatter
+  ncclDevBitOr,
   ncclNumDevRedOps
 };
 struct ncclDevRedOpFull {
@@ -275,6 +276,12 @@ inline __device__ int ncclP2pChannelToPart(int nP2pChannels, int base, int chann
   return (channel - base) & (nP2pChannels-1);
 }
 
+// ncclDevWorkColl::ccdUnionFlags (NCCL_CCD_UNION_PASS_COUNTS, NCCL_CCD_UNION_VERIFY)
+enum CcdUnionFlags {
+  CcdUnionPassCounts = 1,   // UPACK payloads carry U's tile offsets; later hops don't count U
+  CcdUnionVerifyCounts = 2  // receivers count U anyway and trap on a difference
+};
+
 struct alignas(16) ncclDevWorkColl {
   // Running on channels [channelLo..channelHi], hi is inclusive.
   //   nChannels == (channelHi - channelLo) + 1
@@ -308,9 +315,15 @@ struct alignas(16) ncclDevWorkColl {
   uint8_t isSparse;
   uint8_t ccdFormatMask;
   uint8_t ccdEltSize;  // Original element size (e.g. 4 for float) before AllGather int8 conversion
+  uint8_t ccdUnionN;   // Union-pack RS chain length (<= 1: disabled)
   float ccdDenseThreshold;
   float ccdAgDenseThreshold;
   float ccdDenseIntraThreshold;
+  const uint64_t* ccdUnionMasks;  // AG masks: [nRanks][ccdUnionMaskWords]; AR mask: [ccdUnionMaskWords]
+  uint32_t ccdUnionMaskWords;
+  uint8_t ccdUnionOrder;          // CcdUnionOrder (device/ccd.cuh)
+  uint8_t ccdUnionArMask;         // ccdUnionMasks is the AR mask, used for every chain
+  uint8_t ccdUnionFlags;          // CcdUnionFlags
 };
 
 

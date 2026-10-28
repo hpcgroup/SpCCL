@@ -330,6 +330,12 @@ ncclResult_t ncclTasksRegAndEnqueue(struct ncclComm* comm) {
     devWork.ccdDenseThreshold = task->ccdDenseThreshold;
     devWork.ccdAgDenseThreshold = task->ccdAgDenseThreshold;
     devWork.ccdDenseIntraThreshold = task->ccdDenseIntraThreshold;
+    devWork.ccdUnionN = task->ccdUnionN;
+    devWork.ccdUnionMasks = task->ccdUnionMasks;
+    devWork.ccdUnionMaskWords = (uint32_t)task->ccdUnionMaskWords;
+    devWork.ccdUnionOrder = task->ccdUnionOrder;
+    devWork.ccdUnionArMask = task->ccdUnionArMask;
+    devWork.ccdUnionFlags = task->ccdUnionFlags;
     if (task->regBufType & NCCL_NET_REG_BUFFER)
       devWork.netRegUsed = 1;
     if (task->regBufType & (NCCL_IPC_REG_BUFFER | NCCL_NVLS_REG_BUFFER))
@@ -2373,6 +2379,14 @@ static ncclResult_t hostToDevRedOp(
   switch (int(op)) {
   case ncclSum:  opFull->op = ncclDevSum;  break;
   case ncclProd: opFull->op = ncclDevProd; break;
+  case ncclBitOr:
+    if (!(datatype == ncclInt8 || datatype == ncclUint8 || datatype == ncclInt32 ||
+          datatype == ncclUint32 || datatype == ncclInt64 || datatype == ncclUint64)) {
+      WARN("ncclBitOr requires an integer datatype");
+      return ncclInvalidArgument;
+    }
+    opFull->op = ncclDevBitOr;
+    break;
   case ncclMin:
   case ncclMax:
     opFull->op = ncclDevMinMax;
@@ -2599,6 +2613,12 @@ static ncclResult_t collTaskAppend(
   t->ccdDenseThreshold = info->ccdDenseThreshold;
   t->ccdAgDenseThreshold = info->ccdAgDenseThreshold;
   t->ccdDenseIntraThreshold = info->ccdDenseIntraThreshold;
+  t->ccdUnionN = info->ccdUnionN;
+  t->ccdUnionMasks = info->ccdUnionMasks;
+  t->ccdUnionMaskWords = info->ccdUnionMaskWords;
+  t->ccdUnionOrder = info->ccdUnionOrder;
+  t->ccdUnionArMask = info->ccdUnionArMask;
+  t->ccdUnionFlags = info->ccdUnionFlags;
   t->eActivationMask = ncclProfilerApiState.eActivationMask;
   t->groupApiEventHandle = ncclProfilerApiState.groupApiEventHandle;
   t->collApiEventHandle = ncclProfilerApiState.collApiEventHandle;

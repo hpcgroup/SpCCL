@@ -7,7 +7,7 @@ import shutil
 
 # Order of redops, tys, protos, algos must match src/include/device.h
 all_colls =  ["Broadcast","Reduce","AllGather","ReduceScatter","AllReduce","SendRecv"]
-all_redops = ["Sum","Prod","MinMax","PreMulSum","SumPostDiv","PatSumPostDiv"]
+all_redops = ["Sum","Prod","MinMax","PreMulSum","SumPostDiv","PatSumPostDiv","BitOr"]
 all_tys =    ["i8","u8","i32","u32","i64","u64","f16","f32","f64","bf16","f8e4m3","f8e5m2"]
 all_protos = ["LL","LL128","SIMPLE"]
 all_algos =  ["TREE","RING","COLLNET_DIRECT","COLLNET_CHAIN","NVLS","NVLS_TREE","PAT"]
@@ -116,6 +116,8 @@ def required_cuda(coll, redop, ty, algo, proto):
     if redop=="PatSumPostDiv" and (coll != "ReduceScatter" or algo != "PAT"): return None
     # [META:PAT_AVG] PatSumPostDiv restricted to types with enough exponent range (bf16/f32/f64 and integers)
     if redop=="PatSumPostDiv" and ty in ("f16", "f8e4m3", "f8e5m2"): return None
+    # BitOr: integer types on RING/TREE only
+    if redop=="BitOr" and (ty[0] not in ("i","u") or algo not in ("RING","TREE")): return None
     if ty=="bf16": cudart = max(cudart, 11000)
     if ty.startswith("f8"):
       cudart = max(cudart, 11080)
@@ -138,7 +140,7 @@ def required_cuda(coll, redop, ty, algo, proto):
 def equivalent_primary(coll, redop, ty, algo, proto):
   if coll in ("AllReduce", "Reduce", "ReduceScatter"):
     # map signed integer sum/prod to unsigned (PatSumPostDiv uses sum internally)
-    if redop in ("Sum","Prod","PreMulSum","SumPostDiv","PatSumPostDiv") and ty[0]=="i":
+    if redop in ("Sum","Prod","PreMulSum","SumPostDiv","PatSumPostDiv","BitOr") and ty[0]=="i":
       return (coll, redop, "u"+ty[1:], algo, proto)
     # map signed integer min/max to unsigned for non-NVLS
     if redop=="MinMax" and ty[0]=="i" and ("NVLS" not in algo):
@@ -383,7 +385,8 @@ redop_to_cxx = {
   "MinMax": "FuncMinMax",
   "PreMulSum": "FuncPreMulSum",
   "SumPostDiv": "FuncSumPostDiv",
-  "PatSumPostDiv": "FuncPatSumPostDiv"  # [META:PAT_AVG]
+  "PatSumPostDiv": "FuncPatSumPostDiv",  # [META:PAT_AVG]
+  "BitOr": "FuncBitOr"
 }
 
 ty_to_cxx = {

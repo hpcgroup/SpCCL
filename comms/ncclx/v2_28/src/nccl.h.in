@@ -347,16 +347,18 @@ ncclResult_t  ncclCommWindowDeregister(ncclComm_t comm, ncclWindow_t win);
 ncclResult_t pncclCommWindowDeregister(ncclComm_t comm, ncclWindow_t win);
 
 /* Reduction operation selector */
-typedef enum { ncclNumOps_dummy = 5 } ncclRedOp_dummy_t;
+typedef enum { ncclNumOps_dummy = 6 } ncclRedOp_dummy_t;
 typedef enum { ncclSum        = 0,
                ncclProd       = 1,
                ncclMax        = 2,
                ncclMin        = 3,
                ncclAvg        = 4,
+               /* Bitwise OR, integer types only (e.g. combining nonzero bitmasks) */
+               ncclBitOr      = 5,
                /* ncclNumOps: The number of built-in ncclRedOp_t values. Also
                 * serves as the least possible value for dynamic ncclRedOp_t's
                 * as constructed by ncclRedOpCreate*** functions. */
-               ncclNumOps     = 5,
+               ncclNumOps     = 6,
                /* ncclMaxRedOp: The largest valid value for ncclRedOp_t.
                 * It is defined to be the largest signed value (since compilers
                 * are permitted to use signed enums) that won't grow
@@ -550,6 +552,28 @@ ncclResult_t pncclReduceScatter(const void* sendbuff, void* recvbuff,
 ncclResult_t ncclReduceScatterSparse(const void* sendbuff, void* recvbuff,
     size_t recvcount, ncclDataType_t datatype, ncclRedOp_t op, ncclComm_t comm,
     cudaStream_t stream);
+
+/* Sparse ReduceScatter with union packing over the first ring hops
+ *
+ * Like ncclReduceScatterSparse, but for each chunk the first unionN GPUs on
+ * its ring path pack their values at the positions of the OR of their nonzero
+ * bitmasks. Those hops send no bitvector and reduce with an elementwise add of
+ * packed arrays; after unionN GPUs the regular sparse path takes over.
+ * unionN <= 1 behaves like ncclReduceScatterSparse; larger values are clamped
+ * to the number of ranks.
+ *
+ * masks: with NCCL_CCD_UNION_MASK=ag (the default), the AG masks: a device
+ * buffer of nranks * ceil(nranks*recvcount/64) uint64 words holding the
+ * allgathered (rank-ordered) nonzero bitmasks of every rank's sendbuff, ORed
+ * per chain. With NCCL_CCD_UNION_MASK=ar, the AR mask: one bitmask of
+ * ceil(nranks*recvcount/64) words (e.g. the ncclBitOr allreduce of all ranks'
+ * bitmasks), used for every chain. Bit e%64 of word e/64 is set if element e
+ * may be nonzero (a superset of the true support is fine). Must match
+ * sendbuff's contents on every rank.
+ */
+ncclResult_t ncclReduceScatterSparseUnion(const void* sendbuff, void* recvbuff,
+    size_t recvcount, ncclDataType_t datatype, ncclRedOp_t op, int unionN,
+    const uint64_t* masks, ncclComm_t comm, cudaStream_t stream);
 
 /* Sparse AllGather
  *

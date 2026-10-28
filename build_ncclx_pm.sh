@@ -456,7 +456,7 @@ mkdir -p "$BUILDDIR"
 pushd "${NCCL_HOME}"
 
 function build_nccl {
-  make VERBOSE=1 -j4 \
+  make VERBOSE=1 -j"${NCCL_BUILD_JOBS:-4}" \
     src.build \
     BUILDDIR="$BUILDDIR" \
     NVCC_GENCODE="$NVCC_GENCODE" \
@@ -472,7 +472,7 @@ function build_nccl {
 }
 
 function build_and_install_nccl {
-make VERBOSE=1 -j4 \
+make VERBOSE=1 -j"${NCCL_BUILD_JOBS:-4}" \
     src.install \
     BUILDDIR="$BUILDDIR" \
     NVCC_GENCODE="$NVCC_GENCODE" \

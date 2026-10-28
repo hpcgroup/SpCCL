@@ -1,0 +1,736 @@
+
+The following have been reloaded with a version change:
+  1) cudatoolkit/13.2 => cudatoolkit/12.9
+
+job 60341083 on 1 node(s), 4 ranks; NCCLX from /pscratch/sd/e/egencer/sparsecomms/torchcomms-sparse/build/ncclx-union-dev/lib
+NCCL_BUFFSIZE=16777216
+NCCL_CCD_CHANNELS=64
+NCCL_CCD_DENSE_INTRA_THRESHOLD=0.7
+NCCL_CCD_DENSE_THRESHOLD=0.6
+NCCL_CCD_FORMAT_MASK=5
+
+=== --data iid --count 4194304 --density 0.05 --iters 10 --warmup 3
+W1026 16:48:59.710119 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:48:59.712798 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:48:59.712808 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:48:59.712813 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:48:59.712819 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:48:59.712825 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:48:59.712830 1727456 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:48:59.725775315.725775 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:48:59.726103469.726103 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:48:59.726110242.726110 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:48:59.726114721.726114 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:48:59.726118769.726118 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:48:59.726123398.726123 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:48:59.726127205.726127 1727456 nccl_cvars.cc:273] nid002296:1727456:1727456 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:48:59.740315 1727456 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:48:59.740329 1727456 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:48:59.740582076.740582 1727456 showVersion:656] nid002296:1727456:1727456 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:48:59.744585 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:48:59.744666 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:48:59.744672 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:48:59.744681 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:48:59.744686 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:48:59.744692 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:48:59.744697 1727462 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:48:59.746184 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:48:59.746263 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:48:59.746270 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:48:59.746275 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:48:59.746280 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:48:59.746286 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:48:59.746291 1727457 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:48:59.746923 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:48:59.747001 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:48:59.747008 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:48:59.747013 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:48:59.747019 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:48:59.747025 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:48:59.747029 1727459 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:48:59.755980080.755980 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756027342.756027 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756033674.756033 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:48:59.756037852.756037 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:48:59.756042080.756042 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:48:59.756047030.756047 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:48:59.756050587.756050 1727462 nccl_cvars.cc:273] nid002296:1727462:1727462 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:48:59.756296091.756296 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756340036.756340 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756346800.756346 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:48:59.756351308.756351 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:48:59.756355356.756355 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:48:59.756363462.756363 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:48:59.756367039.756367 1727459 nccl_cvars.cc:273] nid002296:1727459:1727459 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:48:59.756430070.756430 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756476741.756476 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:48:59.756482151.756482 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:48:59.756486189.756486 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:48:59.756492611.756492 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:48:59.756498613.756498 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:48:59.756502250.756502 1727457 nccl_cvars.cc:273] nid002296:1727457:1727457 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:48:59.758929 1727462 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:48:59.758947 1727462 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:48:59.758989 1727459 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:48:59.759000 1727459 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:48:59.759049 1727457 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:48:59.759063 1727457 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:48:59.879573798.879573 1727456 nccl_net_ofi_init:1274] nid002296:1727456:1727456 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:48:59.879602944.879602 1727457 nccl_net_ofi_init:1274] nid002296:1727457:1727457 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:48:59.879601041.879601 1727459 nccl_net_ofi_init:1274] nid002296:1727459:1727459 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:48:59.879629215.879629 1727462 nccl_net_ofi_init:1274] nid002296:1727462:1727462 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:48:59.975072091.975072 1727459 nccl_net_ofi_init:1386] nid002296:1727459:1727459 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:48:59.975233733.975233 1727456 nccl_net_ofi_init:1386] nid002296:1727456:1727456 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:48:59.975268942.975268 1727457 nccl_net_ofi_init:1386] nid002296:1727457:1727457 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:48:59.975209066.975209 1727462 nccl_net_ofi_init:1386] nid002296:1727462:1727462 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:00.069570109.069570 1727457 DataSink.h:26] nid002296:1727457:1727457 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:00.069593855.069593 1727456 DataSink.h:26] nid002296:1727456:1727456 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:00.069589937.069589 1727459 DataSink.h:26] nid002296:1727459:1727459 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:00.069586581.069586 1727462 DataSink.h:26] nid002296:1727462:1727462 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:00.069699960.069699 1727459 DataSink.h:26] nid002296:1727459:1727459 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:00.069697976.069697 1727462 DataSink.h:26] nid002296:1727462:1727462 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:00.069713897.069713 1727456 DataSink.h:26] nid002296:1727456:1727456 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:00.069755147.069755 1727457 DataSink.h:26] nid002296:1727457:1727457 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:00.070378653.070378 1727456 ScubaFileUtils.cc:39] nid002296:1727456:1727456 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164900-1577171741688108232.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070382490.070382 1727457 ScubaFileUtils.cc:39] nid002296:1727457:1727457 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164900-977636821707798246.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070379655.070379 1727459 ScubaFileUtils.cc:39] nid002296:1727459:1727459 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164900-7171310664094672053.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070390315.070390 1727462 ScubaFileUtils.cc:39] nid002296:1727462:1727462 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164900-16140485245961312516.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070503574.070503 1727456 ScubaFileUtils.cc:39] nid002296:1727456:1727456 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164900-1577171741688108232.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070501711.070501 1727457 ScubaFileUtils.cc:39] nid002296:1727457:1727457 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164900-977636821707798246.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070498053.070498 1727459 ScubaFileUtils.cc:39] nid002296:1727459:1727459 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164900-7171310664094672053.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070505688.070505 1727462 ScubaFileUtils.cc:39] nid002296:1727462:1727462 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164900-16140485245961312516.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:00.070642283.070642 1727456 DataTableWrapper.cc:89] nid002296:1727456:1727456 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:00.070642283.070642 1727456 DataTableWrapper.cc:89] nid002296:1727456:1727456 [0][main] NCCL WARN 
+W1026 23:49:00.070649978.070649 1727457 DataTableWrapper.cc:89] nid002296:1727457:1727457 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:00.070649978.070649 1727457 DataTableWrapper.cc:89] nid002296:1727457:1727457 [1][main] NCCL WARN 
+W1026 23:49:00.070639307.070639 1727459 DataTableWrapper.cc:89] nid002296:1727459:1727459 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:00.070639307.070639 1727459 DataTableWrapper.cc:89] nid002296:1727459:1727459 [2][main] NCCL WARN 
+W1026 23:49:00.070635630.070635 1727462 DataTableWrapper.cc:89] nid002296:1727462:1727462 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:00.070635630.070635 1727462 DataTableWrapper.cc:89] nid002296:1727462:1727462 [3][main] NCCL WARN 
+I1026 16:49:00.144713 1727456 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:00.144719 1727457 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:00.144718 1727459 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:00.144728 1727462 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=f32 count=4194304 sendbuff=0.06 GiB data=iid(density 0.0500, overlap 0.00, seed 1)
+# device memory per rank: 0.17 GiB
+# measured density 0.05005, iters=10 warmup=3
+dense    N=0   order=-1 avg     339.89 us  min     338.11 us  PASS
+spccl    N=1   order=-1 avg     617.31 us  min     612.70 us  PASS
+mask     N=0   order=-1 avg      97.40 us  min      96.70 us  -
+maskAG   N=0   order=-1 avg      88.13 us  min      86.88 us  -
+union    N=1   order=0  avg     622.12 us  min     615.04 us  PASS
+union    N=2   order=0  avg     675.60 us  min     662.46 us  PASS
+union    N=3   order=0  avg     663.96 us  min     657.66 us  PASS
+union    N=4   order=0  avg     660.82 us  min     649.63 us  PASS
+union    N=1   order=1  avg     619.62 us  min     610.30 us  PASS
+union    N=2   order=1  avg     497.06 us  min     494.14 us  PASS
+union    N=3   order=1  avg     436.37 us  min     432.54 us  PASS
+union    N=4   order=1  avg     477.87 us  min     466.98 us  PASS
+
+=== --data capture --capture /pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052 --dtype f32 --iters 5 --warmup 2
+W1026 16:49:04.767154 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:04.767228 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:04.767234 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:04.767239 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:04.767244 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:04.767249 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:04.767253 1727594 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:04.777141429.777141 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:04.777183800.777183 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:04.777191004.777191 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:04.777195563.777195 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:04.777199441.777199 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:04.777203899.777203 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:04.777208027.777208 1727594 nccl_cvars.cc:273] nid002296:1727594:1727594 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:04.787181 1727594 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:04.787200 1727594 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:49:04.787266784.787266 1727594 showVersion:656] nid002296:1727594:1727594 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:49:04.803199 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:04.803276 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:04.803282 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:04.803287 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:04.803292 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:04.803297 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:04.803302 1727600 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:04.803847 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:04.803930 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:04.803937 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:04.803942 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:04.803947 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:04.803953 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:04.803958 1727596 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:04.804571 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:04.804654 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:04.804660 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:04.804666 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:04.804671 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:04.804677 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:04.804682 1727598 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:04.808685795.808685 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:04.808729109.808729 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:04.808736393.808736 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:04.808751442.808751 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:04.808758215.808758 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:04.808763345.808763 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:04.808767052.808767 1727600 nccl_cvars.cc:273] nid002296:1727600:1727600 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:04.808929556.808929 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:04.808972810.808972 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:04.808978281.808978 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:04.808982319.808982 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:04.808985946.808985 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:04.808993169.808993 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:04.808997027.808997 1727596 nccl_cvars.cc:273] nid002296:1727596:1727596 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:04.809283391.809283 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:04.809326184.809326 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:04.809331604.809331 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:04.809335491.809335 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:04.809339159.809339 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:04.809346543.809346 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:04.809350270.809350 1727598 nccl_cvars.cc:273] nid002296:1727598:1727598 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:04.812216 1727600 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:04.812232 1727600 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:04.812278 1727596 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:04.812293 1727596 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:04.812334 1727598 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:04.812348 1727598 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:04.867113331.867113 1727594 nccl_net_ofi_init:1274] nid002296:1727594:1727594 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:04.885882126.885882 1727600 nccl_net_ofi_init:1274] nid002296:1727600:1727600 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:04.888274173.888274 1727598 nccl_net_ofi_init:1274] nid002296:1727598:1727598 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:04.888565587.888565 1727596 nccl_net_ofi_init:1274] nid002296:1727596:1727596 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:04.911949208.911949 1727594 nccl_net_ofi_init:1386] nid002296:1727594:1727594 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:04.933143634.933143 1727600 nccl_net_ofi_init:1386] nid002296:1727600:1727600 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:04.942765977.942765 1727596 nccl_net_ofi_init:1386] nid002296:1727596:1727596 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:04.943018505.943018 1727598 nccl_net_ofi_init:1386] nid002296:1727598:1727598 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:05.014045333.014045 1727598 DataSink.h:26] nid002296:1727598:1727598 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:05.014149264.014149 1727598 DataSink.h:26] nid002296:1727598:1727598 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:05.014353168.014353 1727594 DataSink.h:26] nid002296:1727594:1727594 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:05.014455676.014455 1727594 DataSink.h:26] nid002296:1727594:1727594 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:05.014466778.014466 1727598 ScubaFileUtils.cc:39] nid002296:1727598:1727598 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164905-9001457188862450311.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.014579246.014579 1727598 ScubaFileUtils.cc:39] nid002296:1727598:1727598 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164905-9001457188862450311.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.014780825.014780 1727594 ScubaFileUtils.cc:39] nid002296:1727594:1727594 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164905-11721085392636376346.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.014754485.014754 1727596 DataSink.h:26] nid002296:1727596:1727596 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:05.014854909.014854 1727596 DataSink.h:26] nid002296:1727596:1727596 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:05.014814010.014814 1727598 DataTableWrapper.cc:89] nid002296:1727598:1727598 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:05.014814010.014814 1727598 DataTableWrapper.cc:89] nid002296:1727598:1727598 [2][main] NCCL WARN 
+W1026 23:49:05.014900768.014900 1727594 ScubaFileUtils.cc:39] nid002296:1727594:1727594 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164905-11721085392636376346.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.015025419.015025 1727594 DataTableWrapper.cc:89] nid002296:1727594:1727594 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:05.015025419.015025 1727594 DataTableWrapper.cc:89] nid002296:1727594:1727594 [0][main] NCCL WARN 
+W1026 23:49:05.015071949.015071 1727600 DataSink.h:26] nid002296:1727600:1727600 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:05.015133127.015133 1727596 ScubaFileUtils.cc:39] nid002296:1727596:1727596 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164905-15920306648809078925.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.015176070.015176 1727600 DataSink.h:26] nid002296:1727600:1727600 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:05.015239683.015239 1727596 ScubaFileUtils.cc:39] nid002296:1727596:1727596 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164905-15920306648809078925.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.015490789.015490 1727596 DataTableWrapper.cc:89] nid002296:1727596:1727596 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:05.015490789.015490 1727596 DataTableWrapper.cc:89] nid002296:1727596:1727596 [1][main] NCCL WARN 
+W1026 23:49:05.018176634.018176 1727600 ScubaFileUtils.cc:39] nid002296:1727600:1727600 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164905-12844548230021963656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.018292338.018292 1727600 ScubaFileUtils.cc:39] nid002296:1727600:1727600 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164905-12844548230021963656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:05.018425475.018425 1727600 DataTableWrapper.cc:89] nid002296:1727600:1727600 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:05.018425475.018425 1727600 DataTableWrapper.cc:89] nid002296:1727600:1727600 [3][main] NCCL WARN 
+I1026 16:49:05.084264 1727594 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:05.084255 1727598 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:05.084291 1727596 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:05.084293 1727600 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=f32 count=389216800 sendbuff=5.80 GiB data=capture(/pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052, iter 52, 16 ranks) window=[0,1556867200) of 1556867200
+# device memory per rank: 15.41 GiB
+# measured density 0.00983, iters=5 warmup=2
+dense    N=0   order=-1 avg   22539.33 us  min   22507.33 us  PASS
+spccl    N=1   order=-1 avg   27489.30 us  min   27442.78 us  PASS
+mask     N=0   order=-1 avg    9048.01 us  min    9043.46 us  -
+maskAG   N=0   order=-1 avg    3099.43 us  min    3094.05 us  -
+union    N=1   order=0  avg   27498.26 us  min   27422.94 us  PASS
+union    N=2   order=0  avg   25179.86 us  min   25162.02 us  PASS
+union    N=3   order=0  avg   22930.57 us  min   22910.91 us  PASS
+union    N=4   order=0  avg   18977.10 us  min   18937.86 us  PASS
+union    N=1   order=1  avg   27524.31 us  min   27459.17 us  PASS
+union    N=2   order=1  avg   17346.35 us  min   17317.89 us  PASS
+union    N=3   order=1  avg   12378.90 us  min   12361.73 us  PASS
+union    N=4   order=1  avg   14294.77 us  min   14276.06 us  PASS
+
+=== --data capture --capture /pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052 --dtype f16 --iters 5 --warmup 2
+W1026 16:49:11.754761 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:11.754835 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:11.754841 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:11.754845 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:11.754850 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:11.754855 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:11.754860 1727731 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:11.762662027.762662 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:11.762705170.762705 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:11.762712314.762712 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:11.762718576.762718 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:11.762722834.762722 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:11.762727724.762727 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:11.762731100.762731 1727731 nccl_cvars.cc:273] nid002296:1727731:1727731 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:11.767052 1727731 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:11.767066 1727731 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:49:11.767118467.767118 1727731 showVersion:656] nid002296:1727731:1727731 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:49:11.777096 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:11.777178 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:11.777185 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:11.777190 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:11.777195 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:11.777202 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:11.777207 1727732 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:11.782112931.782112 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:11.782156876.782156 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:11.782162106.782162 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:11.782166124.782166 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:11.782172205.782172 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:11.782177145.782177 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:11.782180762.782180 1727732 nccl_cvars.cc:273] nid002296:1727732:1727732 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:11.785565 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:11.785644 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:11.785650 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:11.785655 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:11.785660 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:11.785665 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:11.785669 1727735 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:11.786015 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:11.786098 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:11.786104 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:11.786109 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:11.786115 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:11.786121 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:11.786125 1727737 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:11.786810 1727732 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:11.786826 1727732 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:11.790609726.790609 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:11.790652809.790652 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:11.790660314.790660 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:11.790664893.790664 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:11.790671435.790671 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:11.790676094.790676 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:11.790679922.790679 1727735 nccl_cvars.cc:273] nid002296:1727735:1727735 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:11.790970394.790970 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:11.791016954.791016 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:11.791022645.791022 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:11.791026663.791026 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:11.791032774.791032 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:11.791048004.791048 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:11.791051741.791051 1727737 nccl_cvars.cc:273] nid002296:1727737:1727737 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:11.793306 1727735 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:11.793321 1727735 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:11.793377 1727737 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:11.793390 1727737 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:11.846579248.846579 1727731 nccl_net_ofi_init:1274] nid002296:1727731:1727731 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:11.862016228.862016 1727732 nccl_net_ofi_init:1274] nid002296:1727732:1727732 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:11.868646734.868646 1727735 nccl_net_ofi_init:1274] nid002296:1727735:1727735 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:11.869607803.869607 1727737 nccl_net_ofi_init:1274] nid002296:1727737:1727737 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:11.904349564.904349 1727731 nccl_net_ofi_init:1386] nid002296:1727731:1727731 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:11.926872780.926872 1727732 nccl_net_ofi_init:1386] nid002296:1727732:1727732 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:11.932968652.932968 1727735 nccl_net_ofi_init:1386] nid002296:1727735:1727735 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:11.935943786.935943 1727737 nccl_net_ofi_init:1386] nid002296:1727737:1727737 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:12.003855238.003855 1727731 DataSink.h:26] nid002296:1727731:1727731 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:12.003840710.003840 1727737 DataSink.h:26] nid002296:1727737:1727737 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:12.003941745.003941 1727737 DataSink.h:26] nid002296:1727737:1727737 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:12.003959069.003959 1727731 DataSink.h:26] nid002296:1727731:1727731 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:12.004237197.004237 1727737 ScubaFileUtils.cc:39] nid002296:1727737:1727737 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164912-17142249325972129702.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.004284117.004284 1727731 ScubaFileUtils.cc:39] nid002296:1727731:1727731 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164912-10381025330725780072.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.004353903.004353 1727737 ScubaFileUtils.cc:39] nid002296:1727737:1727737 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164912-17142249325972129702.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.004397727.004397 1727731 ScubaFileUtils.cc:39] nid002296:1727731:1727731 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164912-10381025330725780072.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.004484996.004484 1727737 DataTableWrapper.cc:89] nid002296:1727737:1727737 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:12.004484996.004484 1727737 DataTableWrapper.cc:89] nid002296:1727737:1727737 [3][main] NCCL WARN 
+W1026 23:49:12.004518661.004518 1727731 DataTableWrapper.cc:89] nid002296:1727731:1727731 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:12.004518661.004518 1727731 DataTableWrapper.cc:89] nid002296:1727731:1727731 [0][main] NCCL WARN 
+W1026 23:49:12.004732064.004732 1727735 DataSink.h:26] nid002296:1727735:1727735 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:12.004906261.004906 1727735 DataSink.h:26] nid002296:1727735:1727735 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:12.005214196.005214 1727735 ScubaFileUtils.cc:39] nid002296:1727735:1727735 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164912-10016160109705292662.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.005323658.005323 1727735 ScubaFileUtils.cc:39] nid002296:1727735:1727735 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164912-10016160109705292662.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.005448850.005448 1727735 DataTableWrapper.cc:89] nid002296:1727735:1727735 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:12.005448850.005448 1727735 DataTableWrapper.cc:89] nid002296:1727735:1727735 [2][main] NCCL WARN 
+W1026 23:49:12.005600103.005600 1727732 DataSink.h:26] nid002296:1727732:1727732 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:12.005700487.005700 1727732 DataSink.h:26] nid002296:1727732:1727732 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:12.006030896.006030 1727732 ScubaFileUtils.cc:39] nid002296:1727732:1727732 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164912-7719312074500629249.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.006143895.006143 1727732 ScubaFileUtils.cc:39] nid002296:1727732:1727732 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164912-7719312074500629249.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:12.006266803.006266 1727732 DataTableWrapper.cc:89] nid002296:1727732:1727732 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:12.006266803.006266 1727732 DataTableWrapper.cc:89] nid002296:1727732:1727732 [1][main] NCCL WARN 
+I1026 16:49:12.110446 1727731 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:12.110460 1727735 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:12.110471 1727737 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:12.110491 1727732 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=f16 count=389216800 sendbuff=2.90 GiB data=capture(/pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052, iter 52, 16 ranks) window=[0,1556867200) of 1556867200
+# device memory per rank: 8.16 GiB
+# measured density 0.00983, iters=5 warmup=2
+dense    N=0   order=-1 avg   11166.75 us  min   11160.93 us  PASS
+spccl    N=1   order=-1 avg   23795.87 us  min   23769.12 us  PASS
+mask     N=0   order=-1 avg    8273.01 us  min    8263.68 us  -
+maskAG   N=0   order=-1 avg    3098.08 us  min    3089.89 us  -
+union    N=1   order=0  avg   23846.78 us  min   23788.80 us  PASS
+union    N=2   order=0  avg   21023.64 us  min   20977.76 us  PASS
+union    N=3   order=0  avg   19382.02 us  min   19362.91 us  PASS
+union    N=4   order=0  avg   16578.00 us  min   16563.52 us  PASS
+union    N=1   order=1  avg   23849.54 us  min   23820.06 us  PASS
+union    N=2   order=1  avg   14374.05 us  min   14356.96 us  PASS
+union    N=3   order=1  avg   10012.74 us  min   10000.00 us  PASS
+union    N=4   order=1  avg   11948.49 us  min   11936.54 us  PASS
+
+=== --data capture --capture /pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052 --dtype bf16 --iters 5 --warmup 2
+W1026 16:49:18.330527 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:18.330602 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:18.330608 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:18.330613 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:18.330618 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:18.330623 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:18.330627 1727870 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:18.340233559.340233 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:18.340278556.340278 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:18.340283847.340283 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:18.340288055.340288 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:18.340291922.340291 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:18.340296812.340296 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:18.340300228.340300 1727870 nccl_cvars.cc:273] nid002296:1727870:1727870 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:18.343405 1727870 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:18.343420 1727870 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:49:18.343474448.343474 1727870 showVersion:656] nid002296:1727870:1727870 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:49:18.359987 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:18.360066 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:18.360073 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:18.360078 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:18.360083 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:18.360089 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:18.360094 1727871 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:18.360498 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:18.360578 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:18.360585 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:18.360590 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:18.360595 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:18.360602 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:18.360606 1727873 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:18.362151 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:18.362230 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:18.362237 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:18.362242 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:18.362247 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:18.362253 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:18.362258 1727875 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:18.364834856.364834 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:18.364878941.364878 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:18.364884261.364884 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:18.364888179.364888 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:18.364894311.364894 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:18.364899351.364899 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:18.364903028.364903 1727871 nccl_cvars.cc:273] nid002296:1727871:1727871 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:18.365401031.365401 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:18.365448914.365448 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:18.365454254.365454 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:18.365458442.365458 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:18.365462119.365462 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:18.365469784.365469 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:18.365473381.365473 1727873 nccl_cvars.cc:273] nid002296:1727873:1727873 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:18.366780509.366780 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:18.366823623.366823 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:18.366829274.366829 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:18.366835907.366835 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:18.366839654.366839 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:18.366844664.366844 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:18.366848421.366848 1727875 nccl_cvars.cc:273] nid002296:1727875:1727875 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:18.367953 1727873 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:18.367973 1727873 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:18.368012 1727871 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:18.368024 1727871 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:18.369691 1727875 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:18.369706 1727875 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:18.423351895.423351 1727870 nccl_net_ofi_init:1274] nid002296:1727870:1727870 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:18.444335424.444335 1727871 nccl_net_ofi_init:1274] nid002296:1727871:1727871 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:18.444733194.444733 1727873 nccl_net_ofi_init:1274] nid002296:1727873:1727873 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:18.445019748.445019 1727875 nccl_net_ofi_init:1274] nid002296:1727875:1727875 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:18.470136381.470136 1727870 nccl_net_ofi_init:1386] nid002296:1727870:1727870 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:18.493105921.493105 1727871 nccl_net_ofi_init:1386] nid002296:1727871:1727871 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:18.501056170.501056 1727873 nccl_net_ofi_init:1386] nid002296:1727873:1727873 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:18.501963956.501963 1727875 nccl_net_ofi_init:1386] nid002296:1727875:1727875 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:18.563417656.563417 1727873 DataSink.h:26] nid002296:1727873:1727873 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:18.563512580.563512 1727873 DataSink.h:26] nid002296:1727873:1727873 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:18.563680394.563680 1727871 DataSink.h:26] nid002296:1727871:1727871 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:18.563776530.563776 1727871 DataSink.h:26] nid002296:1727871:1727871 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:18.563797831.563797 1727875 DataSink.h:26] nid002296:1727875:1727875 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:18.563820114.563820 1727873 ScubaFileUtils.cc:39] nid002296:1727873:1727873 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164918-10062015781592685360.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.563897995.563897 1727875 DataSink.h:26] nid002296:1727875:1727875 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:18.564024009.564024 1727873 ScubaFileUtils.cc:39] nid002296:1727873:1727873 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164918-10062015781592685360.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.564159150.564159 1727873 DataTableWrapper.cc:89] nid002296:1727873:1727873 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:18.564159150.564159 1727873 DataTableWrapper.cc:89] nid002296:1727873:1727873 [2][main] NCCL WARN 
+W1026 23:49:18.564182044.564182 1727871 ScubaFileUtils.cc:39] nid002296:1727871:1727871 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164918-1993114424504806656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.564289933.564289 1727871 ScubaFileUtils.cc:39] nid002296:1727871:1727871 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164918-1993114424504806656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.564306235.564306 1727875 ScubaFileUtils.cc:39] nid002296:1727875:1727875 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164918-9739070983668114923.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.564426868.564426 1727871 DataTableWrapper.cc:89] nid002296:1727871:1727871 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:18.564426868.564426 1727871 DataTableWrapper.cc:89] nid002296:1727871:1727871 [1][main] NCCL WARN 
+W1026 23:49:18.564424133.564424 1727875 ScubaFileUtils.cc:39] nid002296:1727875:1727875 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164918-9739070983668114923.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.564567821.564567 1727875 DataTableWrapper.cc:89] nid002296:1727875:1727875 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:18.564567821.564567 1727875 DataTableWrapper.cc:89] nid002296:1727875:1727875 [3][main] NCCL WARN 
+W1026 23:49:18.567981724.567981 1727870 DataSink.h:26] nid002296:1727870:1727870 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:18.568093420.568093 1727870 DataSink.h:26] nid002296:1727870:1727870 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:18.568494937.568494 1727870 ScubaFileUtils.cc:39] nid002296:1727870:1727870 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164918-7108055805349305248.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.568608497.568608 1727870 ScubaFileUtils.cc:39] nid002296:1727870:1727870 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164918-7108055805349305248.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:18.568739851.568739 1727870 DataTableWrapper.cc:89] nid002296:1727870:1727870 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:18.568739851.568739 1727870 DataTableWrapper.cc:89] nid002296:1727870:1727870 [0][main] NCCL WARN 
+I1026 16:49:18.637099 1727871 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:18.637111 1727873 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:18.637097 1727875 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:18.637127 1727870 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=bf16 count=389216800 sendbuff=2.90 GiB data=capture(/pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052, iter 52, 16 ranks) window=[0,1556867200) of 1556867200
+# device memory per rank: 8.16 GiB
+# measured density 0.00983, iters=5 warmup=2
+dense    N=0   order=-1 avg   11169.82 us  min   11154.50 us  PASS
+spccl    N=1   order=-1 avg   23804.09 us  min   23736.80 us  PASS
+mask     N=0   order=-1 avg    8279.03 us  min    8259.90 us  -
+maskAG   N=0   order=-1 avg    3100.26 us  min    3097.95 us  -
+union    N=1   order=0  avg   23868.68 us  min   23843.17 us  PASS
+union    N=2   order=0  avg   21073.63 us  min   21017.60 us  PASS
+union    N=3   order=0  avg   19372.74 us  min   19328.80 us  PASS
+union    N=4   order=0  avg   16594.37 us  min   16552.77 us  PASS
+union    N=1   order=1  avg   23855.76 us  min   23821.92 us  PASS
+union    N=2   order=1  avg   14303.64 us  min   14274.30 us  PASS
+union    N=3   order=1  avg    9863.43 us  min    9841.28 us  PASS
+union    N=4   order=1  avg   11612.56 us  min   11605.92 us  PASS
+
+=== --data capture --capture /pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000100 --dtype f32 --iters 5 --warmup 2
+W1026 16:49:24.705267 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:24.705345 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:24.705351 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:24.705357 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:24.705362 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:24.705368 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:24.705373 1728007 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:24.759686324.759686 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:24.759740830.759740 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:24.759749687.759749 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:24.759755017.759755 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:24.759760007.759760 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:24.759766319.759766 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:24.759769986.759769 1728007 nccl_cvars.cc:273] nid002296:1728007:1728007 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:24.762914 1728007 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:24.762929 1728007 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:49:24.762981558.762981 1728007 showVersion:656] nid002296:1728007:1728007 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:49:24.769817 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:24.769892 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:24.769898 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:24.769902 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:24.769907 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:24.769912 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:24.769916 1728008 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:24.771750 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:24.771832 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:24.771838 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:24.771844 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:24.771849 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:24.771855 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:24.771860 1728012 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:24.772334 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:24.772418 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:24.772425 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:24.772430 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:24.772435 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:24.772441 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:24.772446 1728010 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:24.782225372.782225 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:24.782267022.782267 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:24.782272493.782272 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:24.782276651.782276 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:24.782283514.782283 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:24.782288474.782288 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:24.782291931.782291 1728008 nccl_cvars.cc:273] nid002296:1728008:1728008 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:24.787626950.787626 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:24.787678790.787678 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:24.787685333.787685 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:24.787690583.787690 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:24.787698288.787698 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:24.787704500.787704 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:24.787709259.787709 1728012 nccl_cvars.cc:273] nid002296:1728012:1728012 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:24.789849 1728008 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:24.789863 1728008 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:24.790854473.790854 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:24.790898438.790898 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:24.790903839.790903 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:24.790907926.790907 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:24.790911513.790911 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:24.790920701.790920 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:24.790924208.790924 1728010 nccl_cvars.cc:273] nid002296:1728010:1728010 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:24.793525 1728012 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:24.793540 1728012 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:24.793893 1728010 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:24.793909 1728010 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:24.841865694.841865 1728007 nccl_net_ofi_init:1274] nid002296:1728007:1728007 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:24.866028413.866028 1728008 nccl_net_ofi_init:1274] nid002296:1728008:1728008 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:24.868240812.868240 1728012 nccl_net_ofi_init:1274] nid002296:1728012:1728012 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:24.871180799.871180 1728010 nccl_net_ofi_init:1274] nid002296:1728010:1728010 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:24.895038066.895038 1728007 nccl_net_ofi_init:1386] nid002296:1728007:1728007 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:24.920951931.920951 1728008 nccl_net_ofi_init:1386] nid002296:1728008:1728008 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:24.926484774.926484 1728012 nccl_net_ofi_init:1386] nid002296:1728012:1728012 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:24.935946866.935946 1728010 nccl_net_ofi_init:1386] nid002296:1728010:1728010 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:24.995330542.995330 1728012 DataSink.h:26] nid002296:1728012:1728012 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:24.995672854.995672 1728007 DataSink.h:26] nid002296:1728007:1728007 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:24.995740756.995740 1728012 DataSink.h:26] nid002296:1728012:1728012 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:24.995777156.995777 1728007 DataSink.h:26] nid002296:1728007:1728007 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:24.996120891.996120 1728007 ScubaFileUtils.cc:39] nid002296:1728007:1728007 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164924-12159531007074324959.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996117414.996117 1728010 DataSink.h:26] nid002296:1728010:1728010 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:24.996117605.996117 1728012 ScubaFileUtils.cc:39] nid002296:1728012:1728012 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164924-11882005788669944608.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996216767.996216 1728010 DataSink.h:26] nid002296:1728010:1728010 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:24.996241645.996241 1728007 ScubaFileUtils.cc:39] nid002296:1728007:1728007 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164924-12159531007074324959.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996275300.996275 1728012 ScubaFileUtils.cc:39] nid002296:1728012:1728012 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164924-11882005788669944608.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996384451.996384 1728007 DataTableWrapper.cc:89] nid002296:1728007:1728007 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:24.996384451.996384 1728007 DataTableWrapper.cc:89] nid002296:1728007:1728007 [0][main] NCCL WARN 
+W1026 23:49:24.996454937.996454 1728012 DataTableWrapper.cc:89] nid002296:1728012:1728012 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:24.996454937.996454 1728012 DataTableWrapper.cc:89] nid002296:1728012:1728012 [3][main] NCCL WARN 
+W1026 23:49:24.996538529.996538 1728010 ScubaFileUtils.cc:39] nid002296:1728010:1728010 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164924-12811727383619248656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996654744.996654 1728010 ScubaFileUtils.cc:39] nid002296:1728010:1728010 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164924-12811727383619248656.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.996782120.996782 1728010 DataTableWrapper.cc:89] nid002296:1728010:1728010 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:24.996782120.996782 1728010 DataTableWrapper.cc:89] nid002296:1728010:1728010 [2][main] NCCL WARN 
+W1026 23:49:24.998459655.998459 1728008 DataSink.h:26] nid002296:1728008:1728008 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:24.998561141.998561 1728008 DataSink.h:26] nid002296:1728008:1728008 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:24.998837656.998837 1728008 ScubaFileUtils.cc:39] nid002296:1728008:1728008 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164924-14752129076984144690.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.999002595.999002 1728008 ScubaFileUtils.cc:39] nid002296:1728008:1728008 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164924-14752129076984144690.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:24.999127557.999127 1728008 DataTableWrapper.cc:89] nid002296:1728008:1728008 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:24.999127557.999127 1728008 DataTableWrapper.cc:89] nid002296:1728008:1728008 [1][main] NCCL WARN 
+I1026 16:49:25.120921 1728007 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:25.120928 1728010 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:25.120942 1728012 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:25.120960 1728008 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=f32 count=389216800 sendbuff=5.80 GiB data=capture(/pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000100, iter 100, 16 ranks) window=[0,1556867200) of 1556867200
+# device memory per rank: 15.41 GiB
+# measured density 0.01091, iters=5 warmup=2
+dense    N=0   order=-1 avg   22523.67 us  min   22505.82 us  PASS
+spccl    N=1   order=-1 avg   35937.31 us  min   35884.64 us  PASS
+mask     N=0   order=-1 avg    9046.29 us  min    9033.92 us  -
+maskAG   N=0   order=-1 avg    3106.20 us  min    3100.13 us  -
+union    N=1   order=0  avg   35928.35 us  min   35909.34 us  PASS
+union    N=2   order=0  avg   32784.37 us  min   32773.95 us  PASS
+union    N=3   order=0  avg   27636.03 us  min   27606.66 us  PASS
+union    N=4   order=0  avg   18908.37 us  min   18877.50 us  PASS
+union    N=1   order=1  avg   35921.72 us  min   35903.42 us  PASS
+union    N=2   order=1  avg   28742.71 us  min   28735.10 us  PASS
+union    N=3   order=1  avg   19657.84 us  min   19630.85 us  PASS
+union    N=4   order=1  avg   22882.27 us  min   22840.51 us  PASS
+
+=== --data capture --capture /pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052 --dtype f32 --count 16777216 --iters 20 --warmup 5
+W1026 16:49:32.320019 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:32.320092 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:32.320098 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:32.320103 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:32.320108 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:32.320113 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:32.320118 1728145 nccl_cvars.cc:273] [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:32.326833592.326833 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:32.326875313.326875 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:32.326881926.326881 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:32.326886134.326886 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:32.326890262.326890 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:32.326895091.326895 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:32.326898408.326898 1728145 nccl_cvars.cc:273] nid002296:1728145:1728145 [0][main] NCCL WARN [CudaDev: 0] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:32.331304 1728145 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:32.331318 1728145 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 23:49:32.331380087.331380 1728145 showVersion:656] nid002296:1728145:1728145 [0][main] NCCL INFO NCCL version 2.28.9x-git-fb91b66+cuda12.9
+W1026 16:49:32.337841 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:32.337915 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:32.337921 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:32.337925 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:32.337930 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:32.337935 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:32.337940 1728150 nccl_cvars.cc:273] [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:32.339660 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:32.339747 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:32.339753 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:32.339758 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:32.339764 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:32.339770 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:32.339774 1728148 nccl_cvars.cc:273] [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 16:49:32.340243 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 16:49:32.340323 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 16:49:32.340329 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 16:49:32.340334 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 16:49:32.340339 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 16:49:32.340345 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 16:49:32.340350 1728146 nccl_cvars.cc:273] [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:32.343799560.343799 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:32.343842252.343842 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:32.343847683.343847 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:32.343851740.343851 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:32.343857923.343857 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:32.343862892.343862 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:32.343866649.343866 1728150 nccl_cvars.cc:273] nid002296:1728150:1728150 [3][main] NCCL WARN [CudaDev: 3] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:32.344399340.344399 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:32.344442623.344442 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:32.344450358.344450 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:32.344455018.344455 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:32.344461691.344461 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:32.344466340.344466 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:32.344470247.344470 1728148 nccl_cvars.cc:273] nid002296:1728148:1728148 [2][main] NCCL WARN [CudaDev: 2] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+W1026 23:49:32.346270920.346270 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_INTRA_THRESHOLD in the NCCL namespace
+W1026 23:49:32.346314615.346314 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_DENSE_THRESHOLD in the NCCL namespace
+W1026 23:49:32.346319945.346319 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_CHANNELS in the NCCL namespace
+W1026 23:49:32.346326648.346326 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_CCD_FORMAT_MASK in the NCCL namespace
+W1026 23:49:32.346330455.346330 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_VERSION in the NCCL namespace
+W1026 23:49:32.346335405.346335 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_DIR in the NCCL namespace
+W1026 23:49:32.346338922.346338 1728146 nccl_cvars.cc:273] nid002296:1728146:1728146 [1][main] NCCL WARN [CudaDev: 1] NCCL WARN CVAR: Unknown env NCCL_HOME in the NCCL namespace
+I1026 16:49:32.347406 1728150 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:32.347424 1728150 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:32.347745 1728148 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:32.347760 1728148 CudaWrap.cc:269] CUDART_VERSION 12090
+I1026 16:49:32.348508 1728146 CudaWrap.cc:267] cudaDriverVersion 13000
+I1026 16:49:32.348524 1728146 CudaWrap.cc:269] CUDART_VERSION 12090
+W1026 23:49:32.408290565.408290 1728145 nccl_net_ofi_init:1274] nid002296:1728145:1728145 [0][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:32.422577480.422577 1728150 nccl_net_ofi_init:1274] nid002296:1728150:1728150 [3][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:32.424348726.424348 1728146 nccl_net_ofi_init:1274] nid002296:1728146:1728146 [1][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:32.424697922.424697 1728148 nccl_net_ofi_init:1274] nid002296:1728148:1728148 [2][main] NCCL WARN NET/OFI Using aws-ofi-nccl 1.6.0
+W1026 23:49:32.454700005.454700 1728145 nccl_net_ofi_init:1386] nid002296:1728145:1728145 [0][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:32.472091566.472091 1728150 nccl_net_ofi_init:1386] nid002296:1728150:1728150 [3][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:32.480320523.480320 1728146 nccl_net_ofi_init:1386] nid002296:1728146:1728146 [1][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+W1026 23:49:32.481851304.481851 1728148 nccl_net_ofi_init:1386] nid002296:1728148:1728148 [2][main] NCCL WARN NET/OFI Selected Provider is cxi (found 4 nics)
+CCD CHAN: pre-double nCh=12 nRanks=4 nNodes=1
+CCD CHAN: post-double nCh=24
+CCD CHAN: after MIN/MAX nCh=24
+W1026 23:49:32.545681070.545681 1728146 DataSink.h:26] nid002296:1728146:1728146 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:32.545785823.545785 1728146 DataSink.h:26] nid002296:1728146:1728146 [1][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:32.545786785.545786 1728145 DataSink.h:26] nid002296:1728145:1728145 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:32.545884454.545884 1728145 DataSink.h:26] nid002296:1728145:1728145 [0][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:32.546070373.546070 1728146 ScubaFileUtils.cc:39] nid002296:1728146:1728146 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164932-12391338105539036786.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.546186789.546186 1728146 ScubaFileUtils.cc:39] nid002296:1728146:1728146 [1][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164932-12391338105539036786.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.546217899.546217 1728145 ScubaFileUtils.cc:39] nid002296:1728145:1728145 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164932-13225640379277895606.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.546330126.546330 1728146 DataTableWrapper.cc:89] nid002296:1728146:1728146 [1][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:32.546330126.546330 1728146 DataTableWrapper.cc:89] nid002296:1728146:1728146 [1][main] NCCL WARN 
+W1026 23:49:32.546338081.546338 1728145 ScubaFileUtils.cc:39] nid002296:1728145:1728145 [0][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164932-13225640379277895606.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.546388348.546388 1728148 DataSink.h:26] nid002296:1728148:1728148 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:32.546466570.546466 1728145 DataTableWrapper.cc:89] nid002296:1728145:1728145 [0][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:32.546466570.546466 1728145 DataTableWrapper.cc:89] nid002296:1728145:1728145 [0][main] NCCL WARN 
+W1026 23:49:32.546491899.546491 1728148 DataSink.h:26] nid002296:1728148:1728148 [2][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:32.546779936.546779 1728148 ScubaFileUtils.cc:39] nid002296:1728148:1728148 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164932-16910117784445177413.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.546893345.546893 1728148 ScubaFileUtils.cc:39] nid002296:1728148:1728148 [2][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164932-16910117784445177413.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.547027745.547027 1728148 DataTableWrapper.cc:89] nid002296:1728148:1728148 [2][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:32.547027745.547027 1728148 DataTableWrapper.cc:89] nid002296:1728148:1728148 [2][main] NCCL WARN 
+W1026 23:49:32.547311474.547311 1728150 DataSink.h:26] nid002296:1728150:1728150 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_slow_rank. No logging will be done.
+W1026 23:49:32.548345835.548345 1728150 DataSink.h:26] nid002296:1728150:1728150 [3][main] NCCL WARN Empty sink for dataset: nccl_profiler_algo. No logging will be done.
+W1026 23:49:32.548650825.548650 1728150 ScubaFileUtils.cc:39] nid002296:1728150:1728150 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_slow_coll.Rank_-1.20261026-164932-13092542537365302509.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.548763733.548763 1728150 ScubaFileUtils.cc:39] nid002296:1728150:1728150 [3][main] NCCL WARN Failed to create scuba file /logs/dedicated_log_structured_json.perfpipe_nccl_collective_stats.Rank_-1.20261026-164932-13092542537365302509.scribe: filesystem error: cannot create directories: Permission denied [/logs]
+W1026 23:49:32.548983729.548983 1728150 DataTableWrapper.cc:89] nid002296:1728150:1728150 [3][main] NCCL WARN Could not find table name: nccl_memory_logging
+W1026 23:49:32.548983729.548983 1728150 DataTableWrapper.cc:89] nid002296:1728150:1728150 [3][main] NCCL WARN 
+I1026 16:49:32.666961 1728145 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:32.666960 1728148 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:32.666989 1728146 CommStateX.cc:297] CommStateX: set rankTopology with system
+I1026 16:49:32.666993 1728150 CommStateX.cc:297] CommStateX: set rankTopology with system
+# nranks=4 dtype=f32 count=16777216 sendbuff=0.25 GiB data=capture(/pscratch/sd/e/egencer/sparsecomms/spccl_union_data/58378110_g16_sparse_noea_bd_r1/iter_000052, iter 52, 16 ranks) window=[0,67108864) of 1556867200
+# device memory per rank: 0.66 GiB
+# measured density 0.00933, iters=20 warmup=5
+dense    N=0   order=-1 avg    1084.72 us  min    1079.97 us  PASS
+spccl    N=1   order=-1 avg    1400.65 us  min    1385.15 us  PASS
+mask     N=0   order=-1 avg     375.75 us  min     373.79 us  -
+maskAG   N=0   order=-1 avg     190.74 us  min     188.10 us  -
+union    N=1   order=0  avg    1397.51 us  min    1387.17 us  PASS
+union    N=2   order=0  avg    1416.60 us  min    1406.18 us  PASS
+union    N=3   order=0  avg    1311.55 us  min    1290.43 us  PASS
+union    N=4   order=0  avg    1097.66 us  min    1084.29 us  PASS
+union    N=1   order=1  avg    1395.45 us  min    1384.16 us  PASS
+union    N=2   order=1  avg    1023.71 us  min    1015.68 us  PASS
+union    N=3   order=1  avg     760.20 us  min     752.45 us  PASS
+union    N=4   order=1  avg     828.74 us  min     819.90 us  PASS

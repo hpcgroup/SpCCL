@@ -41,6 +41,7 @@ const char* ncclDevRedOpToString(ncclDevRedOp_t op) {
   case ncclDevPreMulSum: return "PreMulSum";
   case ncclDevSumPostDiv: return "SumPostDiv";
   case ncclDevPatSumPostDiv: return "PatSumPostDiv";
+  case ncclDevBitOr: return "BitOr";
   default: return "Unknown";
   }
 }
@@ -255,6 +256,78 @@ ncclResult_t ncclReduceScatterSparse(const void* sendbuff, void* recvbuff, size_
   info.ccdAgDenseThreshold = agthresh ? (float)atof(agthresh) : 0.1f;
   const char* ithresh = getenv("NCCL_CCD_DENSE_INTRA_THRESHOLD");
   info.ccdDenseIntraThreshold = ithresh ? (float)atof(ithresh) : 0.9f;
+
+  return ncclEnqueueCheck(&info);
+}
+
+NCCL_API(ncclResult_t, ncclReduceScatterSparseUnion, const void* sendbuff, void* recvbuff, size_t recvcount,
+    ncclDataType_t datatype, ncclRedOp_t op, int unionN, const uint64_t* masks, ncclComm* comm, cudaStream_t stream);
+ncclResult_t ncclReduceScatterSparseUnion(const void* sendbuff, void* recvbuff, size_t recvcount,
+    ncclDataType_t datatype, ncclRedOp_t op, int unionN, const uint64_t* masks, ncclComm* comm, cudaStream_t stream) {
+  SetCudaDevRAII setCudaDev(comm->cudaDev);
+
+  struct ncclInfo info = { ncclFuncReduceScatter, "ReduceScatter",
+    sendbuff, recvbuff, recvcount, datatype, op, 0, comm, stream,
+    REDUCESCATTER_CHUNKSTEPS, REDUCESCATTER_SLICESTEPS };
+  info.isSparse = 1;
+  const char* fmask = getenv("NCCL_CCD_FORMAT_MASK");
+  info.ccdFormatMask = fmask ? (uint8_t)atoi(fmask) : 0b0111;
+  const char* dthresh = getenv("NCCL_CCD_DENSE_THRESHOLD");
+  info.ccdDenseThreshold = dthresh ? (float)atof(dthresh) : 0.3f;
+  const char* agthresh = getenv("NCCL_CCD_AG_DENSE_THRESHOLD");
+  info.ccdAgDenseThreshold = agthresh ? (float)atof(agthresh) : 0.1f;
+  const char* ithresh = getenv("NCCL_CCD_DENSE_INTRA_THRESHOLD");
+  info.ccdDenseIntraThreshold = ithresh ? (float)atof(ithresh) : 0.9f;
+
+  // Chain length is bounded by the ring length; N <= 1 is plain sparse RS.
+  int n = unionN < comm->nRanks ? unionN : comm->nRanks;
+  if (n > 255) n = 255;
+  if (n > 1) {
+    if (masks == nullptr) {
+      WARN("ncclReduceScatterSparseUnion: unionN=%d requires masks", unionN);
+      return ncclInvalidArgument;
+    }
+    info.ccdUnionN = (uint8_t)n;
+    info.ccdUnionMasks = masks;
+    info.ccdUnionMaskWords = (recvcount * comm->nRanks + 63) / 64;
+    if (info.ccdUnionMaskWords > UINT32_MAX) {
+      WARN("ncclReduceScatterSparseUnion: %zu mask words per rank exceeds the 32-bit limit",
+           (size_t)info.ccdUnionMaskWords);
+      return ncclInvalidArgument;
+    }
+    // Packing of the union hops: 0 = element order, 1 = SPOP tile order,
+    // 2 = {value, index} pairs (first hop packs in tile order; fp32, N = nRanks).
+    const char* order = getenv("NCCL_CCD_UNION_ORDER");
+    const int unionOrder = order ? atoi(order) : 1;
+    if (unionOrder < 0 || unionOrder > 2) {
+      WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_ORDER must be 0, 1 or 2, got '%s'", order);
+      return ncclInvalidArgument;
+    }
+    if (unionOrder == 2 && (datatype != ncclFloat32 || n != comm->nRanks)) {
+      WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_ORDER=2 (pairs) needs float32 and unionN >= nRanks "
+           "(got datatype %d, unionN %d, nRanks %d)", (int)datatype, unionN, comm->nRanks);
+      return ncclInvalidArgument;
+    }
+    info.ccdUnionOrder = (uint8_t)unionOrder;
+    // "ag" (default): masks are the AG masks, [nranks][words], ORed per chain.
+    // "ar": masks is the AR mask, one mask (e.g. the BitOr allreduce of all
+    // ranks' masks) used as U for every chain.
+    const char* maskMode = getenv("NCCL_CCD_UNION_MASK");
+    if (maskMode && strcmp(maskMode, "ag") != 0 && strcmp(maskMode, "ar") != 0) {
+      WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_MASK must be ag or ar, got '%s'", maskMode);
+      return ncclInvalidArgument;
+    }
+    info.ccdUnionArMask = maskMode && strcmp(maskMode, "ar") == 0;
+    // 1: the first hop of a chain sends U's tile offsets with the values and
+    // later hops use them instead of counting U again (default 0: every hop
+    // counts). NCCL_CCD_UNION_VERIFY=1 makes receivers count U anyway and trap
+    // if what they got (passed offsets, or the number of pairs) differs.
+    const char* passCounts = getenv("NCCL_CCD_UNION_PASS_COUNTS");
+    const char* verify = getenv("NCCL_CCD_UNION_VERIFY");
+    info.ccdUnionFlags = 0;
+    if (passCounts && atoi(passCounts) != 0) info.ccdUnionFlags |= CcdUnionPassCounts;
+    if (verify && atoi(verify) != 0) info.ccdUnionFlags |= CcdUnionVerifyCounts;
+  }
 
   return ncclEnqueueCheck(&info);
 }
