@@ -279,6 +279,36 @@ ncclResult_t ncclReduceScatterSparseUnion(const void* sendbuff, void* recvbuff, 
   const char* ithresh = getenv("NCCL_CCD_DENSE_INTRA_THRESHOLD");
   info.ccdDenseIntraThreshold = ithresh ? (float)atof(ithresh) : 0.9f;
 
+  // "ag" (default): masks are the AG masks, [nranks][words], ORed per chain.
+  // "ar": masks is the AR mask, one mask (e.g. the BitOr allreduce of all
+  // ranks' masks) used as U for every chain.
+  // "growing_union": no masks; every hop adds its values to the received
+  // {value, index} pairs and appends its own nonzeros they don't cover
+  // (device/ccd_growing_union.cuh; fp32, unionN >= nRanks).
+  // "growing_union_v2": the same with the hop's steps reordered (A's pairs
+  // read B only where B is nonzero); no NCCL_CCD_UNION_VERIFY checks.
+  const char* maskMode = getenv("NCCL_CCD_UNION_MASK");
+  if (maskMode && strcmp(maskMode, "ag") != 0 && strcmp(maskMode, "ar") != 0
+      && strcmp(maskMode, "growing_union") != 0 && strcmp(maskMode, "growing_union_v2") != 0) {
+    WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_MASK must be ag, ar, growing_union or growing_union_v2, "
+         "got '%s'", maskMode);
+    return ncclInvalidArgument;
+  }
+  // NCCL_CCD_UNION_VERIFY=1 makes receivers count U anyway (growing union:
+  // the bits of the received mask) and trap if what they got differs.
+  const char* verify = getenv("NCCL_CCD_UNION_VERIFY");
+  if (maskMode && (strcmp(maskMode, "growing_union") == 0 || strcmp(maskMode, "growing_union_v2") == 0)) {
+    if (datatype != ncclFloat32 || unionN < comm->nRanks) {
+      WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_MASK=%s needs float32 and unionN >= nRanks "
+           "(got datatype %d, unionN %d, nRanks %d)", maskMode, (int)datatype, unionN, comm->nRanks);
+      return ncclInvalidArgument;
+    }
+    info.ccdUnionFlags = CcdUnionGrowing;
+    if (strcmp(maskMode, "growing_union_v2") == 0) info.ccdUnionFlags |= CcdUnionGrowingV2;
+    else if (verify && atoi(verify) != 0) info.ccdUnionFlags |= CcdUnionVerifyCounts;
+    return ncclEnqueueCheck(&info);
+  }
+
   // Chain length is bounded by the ring length; N <= 1 is plain sparse RS.
   int n = unionN < comm->nRanks ? unionN : comm->nRanks;
   if (n > 255) n = 255;
@@ -309,21 +339,12 @@ ncclResult_t ncclReduceScatterSparseUnion(const void* sendbuff, void* recvbuff, 
       return ncclInvalidArgument;
     }
     info.ccdUnionOrder = (uint8_t)unionOrder;
-    // "ag" (default): masks are the AG masks, [nranks][words], ORed per chain.
-    // "ar": masks is the AR mask, one mask (e.g. the BitOr allreduce of all
-    // ranks' masks) used as U for every chain.
-    const char* maskMode = getenv("NCCL_CCD_UNION_MASK");
-    if (maskMode && strcmp(maskMode, "ag") != 0 && strcmp(maskMode, "ar") != 0) {
-      WARN("ncclReduceScatterSparseUnion: NCCL_CCD_UNION_MASK must be ag or ar, got '%s'", maskMode);
-      return ncclInvalidArgument;
-    }
     info.ccdUnionArMask = maskMode && strcmp(maskMode, "ar") == 0;
     // 1: the first hop of a chain sends U's tile offsets with the values and
     // later hops use them instead of counting U again (default 0: every hop
-    // counts). NCCL_CCD_UNION_VERIFY=1 makes receivers count U anyway and trap
-    // if what they got (passed offsets, or the number of pairs) differs.
+    // counts). With NCCL_CCD_UNION_VERIFY=1 receivers also check the passed
+    // offsets, or the number of pairs, against their own count.
     const char* passCounts = getenv("NCCL_CCD_UNION_PASS_COUNTS");
-    const char* verify = getenv("NCCL_CCD_UNION_VERIFY");
     info.ccdUnionFlags = 0;
     if (passCounts && atoi(passCounts) != 0) info.ccdUnionFlags |= CcdUnionPassCounts;
     if (verify && atoi(verify) != 0) info.ccdUnionFlags |= CcdUnionVerifyCounts;

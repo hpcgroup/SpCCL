@@ -27,6 +27,7 @@ CAPTURE_ITERS=${CAPTURE_ITERS:-"52"}
 CHANNELS=${CHANNELS:-"16 32 64"}
 DTYPES=${DTYPES:-"f32"}
 SIZES=${SIZES:-""}                                  # empty: the whole bucket
+CAPTURE_COUNT=${CAPTURE_COUNT:-""}                  # recvcount per rank; empty: numel / nranks (the whole bucket)
 NS=${NS-"1,2,4,8,12,14,15,16"}                      # empty: 1..nranks
 ORDERS=${ORDERS:-"1"}                               # 1 = tile (SPOP) order, 0 = element order
 PASS_COUNTS=${PASS_COUNTS:-"0"}                     # 1 = union hops send U's tile offsets with the values
@@ -43,7 +44,7 @@ OUT=${OUT:-"$REPO/spccl_tests/results/sweep_capture_${SLURM_JOB_ID:-nojob}_$(dat
 mkdir -p "$OUT"
 CSV="$OUT/sweep.csv"
 echo "sweep_capture: $SLURM_NNODES node(s), $((SLURM_NNODES * 4)) ranks -> $OUT"
-echo "  capture $CAPTURE_DIR iterations [$CAPTURE_ITERS] sizes [${SIZES:-bucket}] dtypes [$DTYPES]"
+echo "  capture $CAPTURE_DIR iterations [$CAPTURE_ITERS] sizes [${SIZES:-bucket}] count [${CAPTURE_COUNT:-bucket}] dtypes [$DTYPES]"
 echo "  channels [$CHANNELS] N [${NS:-1..P}] orders [$ORDERS] union masks [$UNION_MASKS] pass counts [$PASS_COUNTS]"
 echo "  variants [$VARIANTS] exchanges [$EXCHANGES] counts via $COUNT_EXCHANGE"
 echo "  iters $ITERS warmup $WARMUP cap_dense $CAP_DENSE timeout ${RUN_TIMEOUT}s"
@@ -62,6 +63,7 @@ for c in $CHANNELS; do
             --iters "$ITERS" --warmup "$WARMUP" --csv)
       [[ -n "$NS" ]] && args+=(--n "$NS")
       [[ -n "$SIZES" ]] && args+=(--size "$SIZES")
+      [[ -n "$CAPTURE_COUNT" ]] && args+=(--count "$CAPTURE_COUNT")
       # The CSV rows are rank 0's lines that start with a number; keep one header.
       # A hung run is killed after RUN_TIMEOUT seconds; its rows so far are kept.
       run_test "${args[@]}" 2>&1 \

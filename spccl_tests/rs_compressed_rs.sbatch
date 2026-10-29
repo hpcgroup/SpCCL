@@ -7,6 +7,9 @@
 #   union-e2e      extract bitmask -> bitmask AR -> union-pack RS with the AR mask, N = P-1 and P,
 #                  without and with the tile offsets passed along with the values (PASS_COUNTS=0,1),
 #                  in tile order (ORDERS 1) and as {value, index} pairs (ORDERS 2, N = P only)
+#   union          with UNION_MASKS=growing_union (add union to VARIANTS): the growing
+#                  union RS, no masks, N = P only (needs a test binary built with it:
+#                  RS_UNION_TEST and NCCLX_BUILD_DIR, see env_perlmutter.sh)
 # The pipelines are timed with an event after each phase (see rs_union_test.cu).
 # NCCL_CCD_CHANNELS = NCCL_MAX_NCHANNELS = the channel count, and the test's
 # own kernels launch that many blocks of 512 threads.
@@ -43,7 +46,7 @@ export CAPTURE_DIR
 export CAPTURE_ITERS=${CAPTURE_ITERS:-$CONVERTED}
 export CHANNELS=${CHANNELS:-"8 16 32 64"}
 export VARIANTS=${VARIANTS:-dense,spccl,compressed-rs,union-e2e}
-export UNION_MASKS=ar
+export UNION_MASKS=${UNION_MASKS:-ar}
 export NS=${NS:-$((P - 1)),$P}
 export ORDERS=${ORDERS:-1,2}
 export PASS_COUNTS=${PASS_COUNTS:-0,1}

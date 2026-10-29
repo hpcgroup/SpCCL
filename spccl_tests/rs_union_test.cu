@@ -19,7 +19,12 @@
 //            first hop sends U's tile offsets with the values and later hops
 //            use them instead of counting; CSV column pass_counts). Order 2
 //            sends {value, index} pairs from the first hop on (fp32, N >= P);
-//            other combinations with it are skipped.
+//            other combinations with it are skipped. --union-masks
+//            growing_union runs the growing union RS instead (no masks: each
+//            hop adds its values to the received {value, index} pairs and
+//            appends its own nonzeros they don't cover; fp32, N >= P, once
+//            per N, with no order or pass_counts: both -1 in the CSV);
+//            growing_union_v2 the same with the v2 hop.
 //   compressed-rs  Compressed RS, one pipeline: extract bitmask, bitmask AR
 //            (ncclBitOr allreduce), count_elems (nonzeros of the AR mask per
 //            shard, read back to size the RS), compress each shard at the AR
@@ -92,7 +97,8 @@ static void usage() {
     "  --variants LIST           any of dense,spccl,mask,union,compressed-rs,union-e2e [dense,spccl,mask,union]\n"
     "  --grid G --block B        launch shape of the test's own kernels [NCCL_CCD_CHANNELS or 64, 512]\n"
     "  --exchange LIST           mask exchanges to time: bitmask,coo-ag,coo-bcast,orreduce [all]\n"
-    "  --union-masks LIST        masks for the union runs: ag (AG masks), ar (AR mask) [ag,ar]\n"
+    "  --union-masks LIST        masks for the union runs: ag (AG masks), ar (AR mask), growing_union\n"
+    "                            (growing union RS, no masks), growing_union_v2 (its v2 hop) [ag,ar]\n"
     "  --count-exchange mpi|nccl how COO exchanges share the per-rank counts [mpi]\n"
     "  --n LIST                  union chain lengths [1..P]\n"
     "  --order LIST              union packing: 0=element 1=tile 2=pairs (fp32, N>=P only) [0,1]\n"
@@ -966,9 +972,22 @@ static void run(const Options& opt, int rank, int nranks, ncclComm_t comm, cudaS
       std::vector<int> ns = opt.ns;
       if (ns.empty()) for (int n = 1; n <= nranks; n++) ns.push_back(n);
       for (const std::string& um : opt.unionMasks) {
-        if (um != "ag" && um != "ar") die("--union-masks takes ag and/or ar");
-        const uint64_t* masks = um == "ar" ? arMask : agMasks;
+        if (um != "ag" && um != "ar" && um != "growing_union" && um != "growing_union_v2") {
+          die("--union-masks takes ag, ar, growing_union and/or growing_union_v2");
+        }
         setenv("NCCL_CCD_UNION_MASK", um.c_str(), 1);
+        if (um == "growing_union" || um == "growing_union_v2") {
+          if (!std::is_same<T, float>::value) continue;
+          for (int n : ns) {
+            if (n < nranks) continue;
+            t = measure(restore, [&] {
+              NCCLCHECK(ncclReduceScatterSparseUnion(send, recv, count, dt, ncclSum, n, nullptr, comm, stream));
+            });
+            report("union", n, -1, um.c_str(), t, check());
+          }
+          continue;
+        }
+        const uint64_t* masks = um == "ar" ? arMask : agMasks;
         for (int pc : opt.passCounts) {
           setenv("NCCL_CCD_UNION_PASS_COUNTS", std::to_string(pc).c_str(), 1);
           for (int order : opt.orders) {

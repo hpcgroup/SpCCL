@@ -276,10 +276,13 @@ inline __device__ int ncclP2pChannelToPart(int nP2pChannels, int base, int chann
   return (channel - base) & (nP2pChannels-1);
 }
 
-// ncclDevWorkColl::ccdUnionFlags (NCCL_CCD_UNION_PASS_COUNTS, NCCL_CCD_UNION_VERIFY)
+// ncclDevWorkColl::ccdUnionFlags (NCCL_CCD_UNION_PASS_COUNTS, NCCL_CCD_UNION_VERIFY,
+// NCCL_CCD_UNION_MASK=growing_union, growing_union_v2)
 enum CcdUnionFlags {
-  CcdUnionPassCounts = 1,   // UPACK payloads carry U's tile offsets; later hops don't count U
-  CcdUnionVerifyCounts = 2  // receivers count U anyway and trap on a difference
+  CcdUnionPassCounts = 1,    // UPACK payloads carry U's tile offsets; later hops don't count U
+  CcdUnionVerifyCounts = 2,  // receivers count U anyway and trap on a difference
+  CcdUnionGrowing = 4,       // growing union RS: hops send [mask | pairs] (device/ccd_growing_union.cuh)
+  CcdUnionGrowingV2 = 8      // with CcdUnionGrowing: the v2 hop (ccd_growing_union_v2_hop)
 };
 
 struct alignas(16) ncclDevWorkColl {

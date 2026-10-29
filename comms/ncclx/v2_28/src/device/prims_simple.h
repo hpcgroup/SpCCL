@@ -6,6 +6,7 @@
 
 #include "network/unpack/unpack.h"
 #include "ccd.cuh"
+#include "ccd_growing_union.cuh"
 #include <cassert>
 
 enum primsMode {
@@ -489,6 +490,61 @@ class Primitives<
     if constexpr (sizeof(T) == 4) ccd_union_pairs_scatter_add((float*)dense, (const uint4*)in, nnz, tid, nworkers);
   }
 
+  // One RS hop of a growing union slice (NCCL_CCD_UNION_MASK=growing_union or
+  // growing_union_v2, ccd_growing_union.cuh), sent as MPAIR. Tracks the
+  // density for SpCCL's format choice the way SpCCL's compressed sends do.
+  template<int Recv>
+  __device__ __forceinline__ void ccdGrowingUnionSendSlice(int workSize, int slice) {
+    if constexpr (sizeof(T) != 4) {
+      if (tid == 0) { printf("CCD UNION: growing union needs a 4-byte element type\n"); __trap(); }
+    } else {
+      char* sendBuf = (char*)ncclShmem.groups[group].dsts[0];
+      const size_t valsOffset = ccd_growing_union_vals_offset(workSize);
+      if (tid == 0 && sizeof(CcdSparseChunkHeader) + valsOffset + (size_t)workSize * sizeof(uint2)
+                      > (size_t)stepSize * StepPerSlice * sizeof(T)) {
+        printf("CCD UNION: growing union slice of %d elements may not fit its FIFO slot; raise NCCL_BUFFSIZE\n",
+               workSize);
+        __trap();
+      }
+      const uint32_t nnz = (ccdUnionFlags & CcdUnionGrowingV2)
+          ? ccd_growing_union_v2_hop(
+              (const float*)ncclShmem.groups[group].srcs[0],
+              Recv ? (const char*)ncclShmem.groups[group].srcs[1] : nullptr,
+              sendBuf, workSize,
+              ncclScratchForWarp((tidInBlock - tid) / WARP_SIZE),
+              (size_t)ncclShmemScratchWarpSize() * (nworkers / WARP_SIZE),
+              tid, nworkers, ccdWorkerBar())
+          : ccd_growing_union_hop(
+              (const float*)ncclShmem.groups[group].srcs[0],
+              Recv ? (const char*)ncclShmem.groups[group].srcs[1] : nullptr,
+              sendBuf, workSize, ccdUnionFlags & CcdUnionVerifyCounts,
+              ncclScratchForWarp((tidInBlock - tid) / WARP_SIZE),
+              (size_t)ncclShmemScratchWarpSize() * (nworkers / WARP_SIZE),
+              tid, nworkers, ccdWorkerBar());
+      ccdUnionWriteHeader(sendBuf, valsOffset + (size_t)nnz * sizeof(uint2), nnz, 0, valsOffset,
+                          CcdCompressionProtocol::MPAIR);
+      if (slice == 0) {
+        const float actual_density = (float)nnz / (float)workSize;
+        if (!Recv) {
+          ccdBaseDensity = actual_density;
+          ccdTrackedDensity = actual_density;
+        } else {
+          ccdTrackedDensity = ccd_expected_density(actual_density, ccdBaseDensity);
+        }
+      }
+    }
+  }
+
+  // Received MPAIR slice of a growing union chain (final receive, or the hop
+  // that sends it on dense): scatter-add its pairs into the dense buffer.
+  __device__ __forceinline__ void ccdGrowingUnionScatterRecv(T* dense, const char* in, int n) {
+    if constexpr (sizeof(T) == 4) {
+      ccd_growing_union_scatter_recv((float*)dense, in, n, ccdUnionFlags & CcdUnionVerifyCounts,
+                                     ncclScratchForWarp((tidInBlock - tid) / WARP_SIZE), tid, nworkers,
+                                     ccdWorkerBar());
+    }
+  }
+
   template <int DirectRecv1, int DirectSend1, int Recv, int Send, int SrcBuf, int DstBuf>
   __device__ __forceinline__ void genericOp(
       intptr_t srcIx, intptr_t dstIx, int nelem, bool postOp
@@ -632,17 +688,22 @@ class Primitives<
 
           bool recv_is_compressed = Recv && (ccd_recv_fmt != CcdCompressionProtocol::DENSE);
           bool send_is_compressed = Send && (ccd_send_fmt != CcdCompressionProtocol::DENSE);
+          // Growing union (ccd_growing_union.cuh): a slice received dense goes on
+          // dense, and its compressed RS sends are MPAIR instead of SpCCL's formats.
+          const bool ccdGrowing = ccdUnionFlags & CcdUnionGrowing;
+          if (ccdGrowing && Recv && !recv_is_compressed) send_is_compressed = false;
 
           // Local buffer staging: when receiving compressed data over NVLink
           // (P2P read mode), bulk-copy to local send FIFO first, then
           // decompress/scatter-add from local memory instead of scattered
           // NVLink reads.  NET recv and P2P write recv are already local.
           // Element-order UPACK is read in packed order (contiguous), so it doesn't need staging;
-          // nor does UPAIR, which is read in order 16 bytes at a time.
+          // nor do UPAIR and MPAIR, whose pairs are read in order 16 bytes at a time.
           bool shouldStage = recv_is_compressed
               && (ccd_recv_fmt != CcdCompressionProtocol::COO1D)
               && (ccd_recv_fmt != CcdCompressionProtocol::UPACK || ccdUnionOrder == CcdUnionOrderTile)
               && (ccd_recv_fmt != CcdCompressionProtocol::UPAIR)
+              && (ccd_recv_fmt != CcdCompressionProtocol::MPAIR)
               && (ncclShmem.groups[group].recvConns[0]->flags & NCCL_P2P_READ);
 
           if (Src) {
@@ -650,7 +711,10 @@ class Primitives<
             // RS MODE: Src is set → sendbuff is accumulation target
             // ============================================================
 
-            if (!recv_is_compressed && !send_is_compressed) {
+            if (ccdGrowing && Send && !Dst && send_is_compressed) {
+              // ---- Growing union hop: [mask | pairs] ----
+              if constexpr (Send && !Dst) ccdGrowingUnionSendSlice<Recv>(workSize, slice);
+            } else if (!recv_is_compressed && !send_is_compressed) {
               // ---- CASE 1: Both DENSE — fused reduceCopy ----
               // Header + connFifo.size for send
               if (Send) {
@@ -730,6 +794,8 @@ class Primitives<
                 ccdUnionScatterRecv(ccd_dense_buf, (const T*)ccd_recv_after_hdr, workSize, srcIx + offset);
               } else if (ccd_recv_fmt == CcdCompressionProtocol::UPAIR) {
                 ccdUnionPairsScatterRecv(ccd_dense_buf, ccd_recv_after_hdr, workSize, srcIx + offset);
+              } else if (ccd_recv_fmt == CcdCompressionProtocol::MPAIR) {
+                ccdGrowingUnionScatterRecv(ccd_dense_buf, ccd_recv_after_hdr, workSize);
               } else { // SPOP
                 const uint64_t* recv_bv  = (const uint64_t*)(ccd_recv_after_hdr + ccd_recv_hdr->bv_offset);
                 const unsigned* recv_inds = (const unsigned*)(ccd_recv_after_hdr + ccd_recv_hdr->inds_offset);

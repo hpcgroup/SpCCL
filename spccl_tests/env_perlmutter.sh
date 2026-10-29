@@ -32,11 +32,12 @@ export NCCL_CCD_CHANNELS=${NCCL_CCD_CHANNELS:-64}
 
 # Every task sees all 4 GPUs of its node (so CUDA_VISIBLE_DEVICES above can
 # reorder them); the test picks its GPU by local rank. With RUN_TIMEOUT set,
-# the step is killed after that many seconds (exit status 124).
+# the step is killed after that many seconds (exit status 124). RS_UNION_TEST
+# picks another test binary (with NCCLX_BUILD_DIR for the library it was built against).
 run_test() {
   local limit=()
   [[ -n "${RUN_TIMEOUT:-}" ]] && limit=(timeout -k 30 "$RUN_TIMEOUT")
   ${limit[@]+"${limit[@]}"} srun -n "$((SLURM_NNODES * 4))" --ntasks-per-node=4 --gpus-per-node=4 \
     --gpu-bind=none -c 32 --cpu-bind=cores --mem-bind=local \
-    "$REPO/spccl_tests/rs_union_test" "$@"
+    "${RS_UNION_TEST:-$REPO/spccl_tests/rs_union_test}" "$@"
 }

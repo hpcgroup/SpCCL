@@ -44,7 +44,8 @@ enum CcdCompressionProtocol {
     SPOP,
     ADAPTIVE,
     UPACK,  // values packed at union-bitmask positions, mask known to receiver (union-pack RS)
-    UPAIR   // {value, slice index} pairs at union-bitmask positions (union-pack RS, order 2)
+    UPAIR,  // {value, slice index} pairs at union-bitmask positions (union-pack RS, order 2)
+    MPAIR   // [mask | {value, slice index} pairs] (growing union RS, ccd_growing_union.cuh)
 };
 
 // Asymmetric density extrapolation after one reduce step.
